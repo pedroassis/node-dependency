@@ -18,7 +18,8 @@ You also need a file called **ProjectBootstrap.js** inside your source folder.
 This file is where you should start your application.
 
     
-    // Note that you can get express from the contructor of your class, no need to 'require' it, but you need to declare it in your package.json
+    // Note that you can get express from the contructor of your class,
+    // no need to 'require' it, but you need to declare it in your package.json
 	function ProjectBootstrap(express){
 	    var app = express()
 
@@ -31,7 +32,7 @@ This file is where you should start your application.
 	    })
     }
 
-node-dependency will read your package.json and make every dependency declare in there available to inject, and it will read your source folder and declare all the JS and JSON files it can find.
+node-dependency will read your package.json and make every dependency declared in there available to inject, and it will read your source folder and declare all the JS and JSON files it can find too.
 
 There's a configuration file, we need it because most libraries, like this one, have invalid names to declare a variable, as node-dependency is not valid.
 So in your root folder you'll have this file:
@@ -47,8 +48,8 @@ So in your root folder you'll have this file:
 	    "waterline" : "Waterline"
 	}
 This will assign a different name for your dependencies, not only to make them valid, but also to make them better.
-You see that I depend upon the module 'q' but I want to inject it as 'Q'
-They come from your package.json, and this does not replace it.
+You see that I depend upon the module 'q' but I want to inject it as 'Q'.
+They come from your package.json, and this does not replace this file.
 
 see
 
@@ -72,7 +73,7 @@ In node-dependency we have 3 types of dependencies:
 
 1. Class like function
 -------
-Thats what I like best when working with JS. You can write Class functions in JS, and node-dependency will create one instance of it and make it available for injection.
+That's what I like best when working with JS. You can write Class functions in JS, and node-dependency will create one instance of it and make it available for injection.
 See for yourself:
 
 **Person.js**
