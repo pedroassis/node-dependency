@@ -40,8 +40,10 @@ function Container(container, dependencies, FileUtils, require){
     }
 
     function addFunction(funktion){
-
-        container.factory(method.name, funktion);
+        if(!funktion.className){
+            throw new Error("Anonymous function without a className property, you should define a className to register your function.");
+        }
+        container.factory(method.className, funktion);
     }
 
     function addJSON(jsonObject, fileName){
