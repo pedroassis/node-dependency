@@ -41,10 +41,7 @@ function Container(container, dependencies, FileUtils, require){
 
     function addFunction(funktion){
 
-        var method = funktion();
-        container.factory(method.name, function(){
-            return method;
-        });
+        container.factory(method.name, funktion);
     }
 
     function addJSON(jsonObject, fileName){

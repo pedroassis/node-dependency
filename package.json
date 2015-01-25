@@ -1,14 +1,15 @@
 {
   "name": "node-dependency",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.2",
+  "description": "This module is a dependency manager for NodeJS based on https://github.com/jmendiara/ng-di, which is based on AngularJS's dependency injector.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "pedroassis",
+  "license": "MIT",
   "dependencies": {
     "ng-di": "0.1.0"
-  }
+  },
+  "repository" :  "https://github.com/pedroassis/node-dependency.git"
 }
