@@ -17,7 +17,7 @@ module.exports = function(projectRoot, projectSources) {
 
     var fileUtils = new FileUtils(projectRoot + projectSources, fs);
 
-    new Container(container, dependencies, fileUtils, require);
+    new Container(container, dependencies, fileUtils, require, projectRoot);
 
     ngDI.injector(['Application']);
 
