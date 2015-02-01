@@ -6,7 +6,9 @@ function DependencyHelper (root, require) {
 
     var deps       = require(root + "/package.json").dependencies;
 
-    var dependencies = Object.keys(deps).map(function (dep) {
+    var keys = Object.keys(deps);
+
+    var dependencies = keys.map(function (dep) {
         var name = Dependency[dep] ? Dependency[dep] : dep;
         return {
 
@@ -14,9 +16,20 @@ function DependencyHelper (root, require) {
             require : dep
         }
     });
+    
+    var nodeDependencies = Object.keys(Dependency).filter(function (dependency) {
+        return keys.indexOf(dependency) === -1;
+    }).map(function(dependency) {
+        return {
+            name : dependency,
+            require : dependency
+        };
+    });
+
+    var allDependencies = dependencies.concat(nodeDependencies);
 
     this.getDependencies = function projectDependencies () {
-        return dependencies;
+        return allDependencies;
     }
 }
 

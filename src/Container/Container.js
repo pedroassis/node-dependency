@@ -1,6 +1,6 @@
 
 
-function Container(container, dependencies, FileUtils, require){
+function Container(container, dependencies, FileUtils, require, projectRoot){
 
     var LOOKUP = {};
 
@@ -9,6 +9,8 @@ function Container(container, dependencies, FileUtils, require){
     LOOKUP['anonymous'] = addFunction;
 
     var files = FileUtils.getAllJS();
+
+    container.constant('rootFolder', projectRoot);
 
     dependencies.forEach(function(dependency){
 
