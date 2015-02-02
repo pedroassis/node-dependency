@@ -2,7 +2,7 @@ node-dependency
 ===============
 
 **Never call 'require' again**
-
+Browse our example folder to see how an app using node-dependency looks like.
 Well, you still have to call it once:
 
 **index.js**
