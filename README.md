@@ -33,6 +33,8 @@ This file is where you should start your application.
 
 	    })
     }
+    // Is required to export the function
+    module.exports = ProjectBootstrap;
 
 node-dependency will read your package.json and make every dependency declared in there available to inject, and it will read your source folder and declare all the JS and JSON files it can find too.
 
