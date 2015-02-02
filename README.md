@@ -45,11 +45,12 @@ So in your root folder you'll have this file:
 	    "cheerio" : "$",
 	    "q" : "Q",
 	    "sails-mongo" : "sailsMongo",
-	    "waterline" : "Waterline"
+	    "waterline" : "Waterline",
+	    "fs"	: "fileSystem"
 	}
 This will assign a different name for your dependencies, not only to make them valid, but also to make them better.
 You see that I depend upon the module 'q' but I want to inject it as 'Q'.
-They come from your package.json, and this does not replace this file.
+You also have to declare node internal dependencies like fs.
 
 see
 
