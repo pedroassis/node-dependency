@@ -5,6 +5,13 @@ Autowiring dependencies to you JS files. Without hard-to-write configuration fil
 
 [Click here](https://github.com/pedroassis/node-dependency/tree/master/example) and browse our example folder to see how an app using node-dependency looks like.
 
+## Installation
+
+```bash
+$ npm install node-dependency
+```
+
+
 **Never call 'require' again**
 Well, you still have to call it once:
 
