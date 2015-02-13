@@ -1,7 +1,7 @@
 node-dependency
 ===============
 
-Browse our example folder to see how an app using node-dependency looks like.
+[Click here](https://github.com/pedroassis/node-dependency/tree/master/example) and browse our example folder to see how an app using node-dependency looks like.
 
 
 **Never call 'require' again**
