@@ -1,8 +1,9 @@
 node-dependency
 ===============
 
-[Click here](https://github.com/pedroassis/node-dependency/tree/master/example) and browse our example folder to see how an app using node-dependency looks like.
+Autowiring dependencies to you JS files. Without hard-to-write configuration files, just a simple one, and you may not even need it.
 
+[Click here](https://github.com/pedroassis/node-dependency/tree/master/example) and browse our example folder to see how an app using node-dependency looks like.
 
 **Never call 'require' again**
 Well, you still have to call it once:
@@ -38,7 +39,7 @@ This file is where you should start your application.
 
 node-dependency will read your package.json and make every dependency declared in there available to inject, and it will read your source folder and declare all the JS and JSON files it can find too.
 
-There's a configuration file, we need it because most libraries, like this one, have invalid names to declare a variable, as node-dependency is not valid.
+There's a configuration file, we need it because most libraries, like this one, have invalid names to declare as a variable name, node-dependency for instance, is not valid.
 So in your root folder you'll have this file:
 
 **Dependency.json**
@@ -161,6 +162,14 @@ To use that function:
 		SomeFunction({});
 	}
 	module.exports = SideWalk;
+
+** Error Handling **
+If you declare a class or function with an dependency that does not exists in the container, node-dependency will display a message on your console warning you what class has missing dependencies and which are its names.
+Example:
+	Could not declare BuildingsHandler because of missing dependencies.
+	Invalid dependencies: MissingDep
+
+This wont break your app until you need to inject the Class that has missing dependencies.
 
 
 > Written with [StackEdit](https://stackedit.io/).
