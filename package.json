@@ -1,14 +1,25 @@
 {
   "name": "node-dependency",
-  "version": "1.0.5",
-  "description": "",
+  "version": "1.0.8",
+  "description": "Dependency Injection for NodeJS, no more require() calls",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "keywords": [
+    "dependencies",
+    "DI",
+    "container",
+    "angularjs",
+    "injection"
+  ],
+  "author": "pedroassis",
   "license": "ISC",
   "dependencies": {
     "ng-di": "0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pedroassis/node-dependency"
   }
 }

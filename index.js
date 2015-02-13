@@ -9,6 +9,8 @@ module.exports = function(projectRoot, projectSources) {
 
     var ngDI                = require("ng-di");
 
+    var annotate            = require("ng-di/lib/injector.js").annotate; // work around #11 of ng-di
+
     var dependencies        = new DependencyHelper(projectRoot, require).getDependencies();
 
     var container           = ngDI.module("Application", []);
@@ -17,7 +19,7 @@ module.exports = function(projectRoot, projectSources) {
 
     var fileUtils = new FileUtils(projectRoot + projectSources, fs);
 
-    new Container(container, dependencies, fileUtils, require, projectRoot);
+    new Container(container, dependencies, fileUtils, require, projectRoot, annotate);
 
     ngDI.injector(['Application']);
 
