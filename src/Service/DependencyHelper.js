@@ -8,7 +8,9 @@ function DependencyHelper (root, require) {
 
     var keys = Object.keys(deps);
 
-    var dependencies = keys.map(function (dep) {
+    var dependencies = keys.filter(function(dep) {
+        return dep !== 'node-dependency';
+    }).map(function (dep) {
         var name = Dependency[dep] ? Dependency[dep] : dep;
         return {
 

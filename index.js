@@ -17,9 +17,11 @@ module.exports = function(projectRoot, projectSources) {
 
     var fs                  = require('fs');
 
+    var variableRegex       = require('./src/VariableNameRegex');
+
     var fileUtils = new FileUtils(projectRoot + projectSources, fs);
 
-    new Container(container, dependencies, fileUtils, require, projectRoot, annotate);
+    new Container(container, dependencies, fileUtils, require, projectRoot, annotate, variableRegex);
 
     ngDI.injector(['Application']);
 

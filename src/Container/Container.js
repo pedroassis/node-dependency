@@ -1,6 +1,6 @@
 
 
-function Container(container, dependencies, FileUtils, require, projectRoot, annotate){
+function Container(container, dependencies, FileUtils, require, projectRoot, annotate, variableRegex){
 
     var LOOKUP = {};
 
@@ -17,6 +17,14 @@ function Container(container, dependencies, FileUtils, require, projectRoot, ann
     dependencies.forEach(function(dependency){
 
         var Class;
+
+        if(!variableRegex.test(dependency.name)){
+            console.log();
+            console.log("You have '" + dependency.name + "' on your package.json or in your Dependency.json. And we can't declare a variable with this name.");
+            console.log("You'll need to use our Dependency.json file to create an alias for this dependency. Sorry.");
+            console.log("You can see how it works on https://github.com/pedroassis/node-dependency/");
+            console.log();
+        }
 
         try{
             Class = require(dependency.require);
