@@ -63,6 +63,7 @@ So in your root folder you'll have this file:
 This will assign a different name for your dependencies, not only to make them valid, but also to make them better.
 You see that I depend upon the module 'q' but I want to inject it as 'Q'.
 You also have to declare node internal dependencies like fs.
+Aside from this file you don't need to explicitly declare or inject anything, every JS file will be loaded and also have its dependencies autowired for you.
 
 see
 

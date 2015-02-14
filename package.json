@@ -1,6 +1,6 @@
 {
   "name": "node-dependency",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "description": "Dependency Injection for NodeJS, no more require() calls",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,9 @@
     "DI",
     "container",
     "angularjs",
-    "injection"
+    "injection",
+    "autowire",
+    "dependency"
   ],
   "author": "pedroassis",
   "license": "ISC",
