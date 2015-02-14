@@ -71,6 +71,12 @@ function Container(container, dependencies, FileUtils, require, projectRoot, ann
         console.log("---------------------------------------------------------------");
     });
 
+    if(locals.indexOf('ProjectBootstrap') === -1){
+        console.log("We couldn't find a ProjectBootstrap class inside your source folder.");
+        console.log("Please create your ProjectBootstrap as described on https://github.com/pedroassis/node-dependency/");
+        return;
+    }
+
     container.run(function(ProjectBootstrap){
     });
 
