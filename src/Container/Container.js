@@ -23,6 +23,7 @@ function Container(container, dependencies, FileUtils, require, projectRoot, ann
         if(!variableRegex.test(dependency.name)){
             console.log();
             console.log("You have '" + dependency.name + "' on your package.json or in your Dependency.json. And we can't declare a variable with this name.");
+            console.log();
             console.log("You'll need to use our Dependency.json file to create an alias for this dependency. Sorry.");
             console.log("You can see how it works on https://github.com/pedroassis/node-dependency/");
             console.log();
@@ -34,6 +35,7 @@ function Container(container, dependencies, FileUtils, require, projectRoot, ann
             console.log('You have declared "' + dependency.require + '", with name "' + dependency.name + '"');
             console.log("And we couldn't find with require. Are you sure?");
             console.log(error.message);
+            hasError = true;
         }
 
         var type = typeof(Class) === 'function' ? 'factory' : 'service';
