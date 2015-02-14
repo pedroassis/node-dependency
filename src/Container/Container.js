@@ -12,6 +12,8 @@ function Container(container, dependencies, FileUtils, require, projectRoot, ann
 
     var locals = ['rootFolder'];
 
+    var hasError;
+
     container.constant('rootFolder', projectRoot);
 
     dependencies.forEach(function(dependency){
@@ -77,11 +79,18 @@ function Container(container, dependencies, FileUtils, require, projectRoot, ann
         console.log("Could not declare " + name + " because of missing dependencies.");
         console.log("Missing dependencies: " + klass.invalidDeps.join(', '));
         console.log("---------------------------------------------------------------");
+        hasError = true;
     });
 
     if(locals.indexOf('ProjectBootstrap') === -1){
         console.log("We couldn't find a ProjectBootstrap class inside your source folder.");
         console.log("Please create your ProjectBootstrap as described on https://github.com/pedroassis/node-dependency/");
+        return;
+    }
+
+    if(hasError){
+        console.log()
+        console.log("Please fix the errors to continue.");
         return;
     }
 
