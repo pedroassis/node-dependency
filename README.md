@@ -12,8 +12,11 @@ $ npm install node-dependency
 ```
 
 
-**Never call 'require' again**
+**Never call 'require' again**.
 Well, you still have to call it once:
+
+
+## Setup
 
 **index.js**
 
@@ -24,8 +27,11 @@ Well, you still have to call it once:
 
 This should be your index.js, and yes no other calls needed.
 
+
+## Startup class
+
 You also need a file called **ProjectBootstrap.js** inside your source folder.
-This file is where you should start your application.
+This file is where you should start your application, and it should look like this:
 
     
     // Note that you can get express from the contructor of your class,
@@ -43,6 +49,11 @@ This file is where you should start your application.
     }
     // Is required to export the function
     module.exports = ProjectBootstrap;
+
+Note that you have to inject your own dependencies on ProjectBootstrap in order to start you app, node-dependency instantiates in lazy mode always.
+That means if you don't inject anything on ProjectBootstrap node-dependency won't instantiate any other class.
+
+## Package Scan
 
 node-dependency will read your package.json and make every dependency declared in there available to inject, and it will read your source folder and declare all the JS and JSON files it can find too.
 
@@ -79,6 +90,8 @@ ng-di is great, but it doesn't work as it does in AngularJS because it lacks the
 
 Adding node-dependency you'll have a environment to handle your dependencies, but as AngularJS you'll have to code for it, but it is worth it.
 
+## Dependency Types
+
 In node-dependency we have 3 types of dependencies:
 
 >  1. Class like function
@@ -87,7 +100,7 @@ In node-dependency we have 3 types of dependencies:
 
 1. Class like function
 -------
-That's what I like best when working with JS. You can write Class functions in JS, and node-dependency will create one instance of it and make it available for injection.
+That's the approach I like best when working with JS. You can write Class functions in JS, and node-dependency will create one instance of it and make it available for injection.
 See for yourself:
 
 **Person.js**
