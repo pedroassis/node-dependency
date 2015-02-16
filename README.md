@@ -208,14 +208,12 @@ To use that function:
 	}
 	module.exports = SideWalk;
 
-** Error Handling **
+## Error Handling
 If you declare a class or function with an dependency that does not exists in the container, node-dependency will display a message on your console warning you what class has missing dependencies and which are its names.
 
 Example:
 	Could not declare BuildingsHandler because of missing dependencies.
 	Invalid dependencies: MissingDep
-
-This wont break your app until you need to inject the Class that has missing dependencies.
 
 
 > Written with [StackEdit](https://stackedit.io/).
