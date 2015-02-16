@@ -31,7 +31,7 @@ This should be your index.js, and yes no other calls needed.
 ## Startup class
 
 You also need a file called **ProjectBootstrap.js** inside your source folder.
-<br/>
+
 This file is where you should start your application, and it should look like this:
 
     
@@ -59,6 +59,8 @@ That means if you don't inject anything on ProjectBootstrap node-dependency won'
 ## Package Scan
 
 node-dependency will read your package.json and make every dependency declared in there available to inject, and it will read your source folder and declare all the JS and JSON files it can find too.
+
+Currently you have to explicitly declare node internal dependencies on your **Dependency.json**
 
 ## Configuration
 
