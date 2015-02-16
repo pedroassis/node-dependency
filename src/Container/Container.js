@@ -1,6 +1,6 @@
 
 
-function Container(container, dependencies, FileUtils, require, projectRoot, annotate, variableRegex){
+function Container(container, dependencies, FileUtils, require, projectRoot, annotate, variableRegex, StringUtils){
 
     var LOOKUP = {};
 
@@ -20,7 +20,9 @@ function Container(container, dependencies, FileUtils, require, projectRoot, ann
 
         var Class;
 
-        if(!variableRegex.test(dependency.name)){
+        var name = variableRegex.test(dependency.name) ? dependency.name : StringUtils.removeDashes(dependency.name);
+
+        if(!variableRegex.test(name)){
             console.log();
             console.log("You have '" + dependency.name + "' on your package.json or in your Dependency.json. And we can't declare a variable with this name.");
             console.log();
@@ -32,17 +34,17 @@ function Container(container, dependencies, FileUtils, require, projectRoot, ann
         try{
             Class = require(dependency.require);
         } catch(error){
-            console.log('You have declared "' + dependency.require + '", with name "' + dependency.name + '"');
-            console.log("And we couldn't find with require. Are you sure?");
+            console.log('You have declared "' + dependency.require + '", with name "' + name + '"');
+            console.log("And we couldn't find with require. Did you run 'npm install'?");
             console.log(error.message);
             hasError = true;
         }
 
         var type = typeof(Class) === 'function' ? 'factory' : 'service';
 
-        locals.push(dependency.name);
+        locals.push(name);
 
-        container[type](dependency.name, function(){
+        container[type](name, function(){
             return Class;
         });
     });

@@ -57,22 +57,29 @@ That means if you don't inject anything on ProjectBootstrap node-dependency won'
 
 node-dependency will read your package.json and make every dependency declared in there available to inject, and it will read your source folder and declare all the JS and JSON files it can find too.
 
+## Configuration
+
 There's a configuration file, we need it because most libraries, like this one, have invalid names to declare as a variable name, node-dependency for instance, is not valid.
-So in your root folder you'll have this file:
+The container will try to **rename** your dependencies as it can.
+e.g: 'request-promise' will be available as requestPromise.
+We remove the dash '-' and declare the dependency with a camel-case name.
+But in your root folder you can have this file:
 
 **Dependency.json**
 
     {
-	    "request-promise": "request",
-	    "ng-di": "ngDI",
-	    "cheerio" : "$",
-	    "q" : "Q",
-	    "sails-mongo" : "sailsMongo",
-	    "waterline" : "Waterline",
-	    "fs"	: "fileSystem"
+	    "request-promise"  : "request",
+	    "ng-di"            : "ngDI",
+	    "cheerio"          : "$",
+	    "q"                : "Q",
+	    "sails-mongo"      : "sailsMongo",
+	    "waterline"        : "Waterline",
+	    "fs"               : "fileSystem"
 	}
+
 This will assign a different name for your dependencies, not only to make them valid, but also to make them better.
 You see that I depend upon the module 'q' but I want to inject it as 'Q'.
+Note that we added 'request-promise' and rename it to 'request', therefore it won't need to be renamed by the container.
 You also have to declare node internal dependencies like fs.
 Aside from this file you don't need to explicitly declare or inject anything, every JS file will be loaded and also have its dependencies autowired for you.
 
