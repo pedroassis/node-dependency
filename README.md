@@ -31,6 +31,7 @@ This should be your index.js, and yes no other calls needed.
 ## Startup class
 
 You also need a file called **ProjectBootstrap.js** inside your source folder.
+<br/>
 This file is where you should start your application, and it should look like this:
 
     
@@ -51,6 +52,8 @@ This file is where you should start your application, and it should look like th
     module.exports = ProjectBootstrap;
 
 Note that you have to inject your own dependencies on ProjectBootstrap in order to start you app, node-dependency instantiates in lazy mode always.
+
+
 That means if you don't inject anything on ProjectBootstrap node-dependency won't instantiate any other class.
 
 ## Package Scan
@@ -60,9 +63,14 @@ node-dependency will read your package.json and make every dependency declared i
 ## Configuration
 
 There's a configuration file, we need it because most libraries, like this one, have invalid names to declare as a variable name, node-dependency for instance, is not valid.
+
+
 The container will try to **rename** your dependencies as it can.
+
 e.g: 'request-promise' will be available as requestPromise.
+
 We remove the dash '-' and declare the dependency with a camel-case name.
+
 But in your root folder you can have this file:
 
 **Dependency.json**
@@ -78,9 +86,13 @@ But in your root folder you can have this file:
 	}
 
 This will assign a different name for your dependencies, not only to make them valid, but also to make them better.
+
 You see that I depend upon the module 'q' but I want to inject it as 'Q'.
+
 Note that we added 'request-promise' and rename it to 'request', therefore it won't need to be renamed by the container.
+
 You also have to declare node internal dependencies like fs.
+
 Aside from this file you don't need to explicitly declare or inject anything, every JS file will be loaded and also have its dependencies autowired for you.
 
 see
@@ -108,6 +120,7 @@ In node-dependency we have 3 types of dependencies:
 1. Class like function
 -------
 That's the approach I like best when working with JS. You can write Class functions in JS, and node-dependency will create one instance of it and make it available for injection.
+
 See for yourself:
 
 **Person.js**
@@ -155,6 +168,7 @@ You can inject this object as you did with a Class like object.
 3. Function Object
 -------
 We also have a third type, mostly for compatibility sake.
+
 A function object works like most libraries for node, when you require something and it is a function and also have properties.
 
 	// 'request' is a node library   
@@ -165,7 +179,9 @@ A function object works like most libraries for node, when you require something
 	request.get(someUrl).then(callback);
 
 There is nothing wrong with this approach, and it is widely used, but it does create a problem when declaring it as a dependency.
+
 Angular module thinks it's a Class function and tries to instantiate a object.
+
 If you create a function that works like that one you'll have to declare it a little different:
 
     function SomeFunction(){
@@ -179,6 +195,7 @@ If you create a function that works like that one you'll have to declare it a li
 	};
 	
 When you declare a anonymous function we assume that this isn't a Class like function, and make it available as is.
+
 To use that function:
 
     // Named function means it is a Class
@@ -193,6 +210,7 @@ To use that function:
 
 ** Error Handling **
 If you declare a class or function with an dependency that does not exists in the container, node-dependency will display a message on your console warning you what class has missing dependencies and which are its names.
+
 Example:
 	Could not declare BuildingsHandler because of missing dependencies.
 	Invalid dependencies: MissingDep
