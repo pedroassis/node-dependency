@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.11.2",
-    "node-dependency": "^1.0.5"
+    "node-dependency": "pedroassis/node-dependency",
+    "request-promise" : "*"
   }
 }

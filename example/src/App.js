@@ -5,7 +5,7 @@
  * 
  * Injecting an invalid name will cause your app to break!
  */
-function App(Express, httpConfig, Models) {
+function App(Express, httpConfig, Models, requestPromise) {
     var app = Express();
 
     app.get('/', function (req, res) {

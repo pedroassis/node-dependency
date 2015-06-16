@@ -1,6 +1,8 @@
 
+var AnnotationService       = new require('./AnnotationService')();
+var ContainerConfiguration  = new require('./ContainerConfiguration')(AnnotationService);
 
-function Container(container, dependencies, FileUtils, require, projectRoot, annotate, variableRegex, StringUtils){
+function Container(container, dependencies, FileUtils, require, projectRoot, variableRegex, StringUtils){
 
     var LOOKUP = {};
 
@@ -15,6 +17,10 @@ function Container(container, dependencies, FileUtils, require, projectRoot, ann
     var hasError;
 
     container.constant('rootFolder', projectRoot);
+
+    container.service('AnnotationService', function() {
+        return AnnotationService;
+    });
 
     dependencies.forEach(function(dependency){
 
@@ -66,7 +72,7 @@ function Container(container, dependencies, FileUtils, require, projectRoot, ann
         locals.push(klass.name || klass.className);
         return typeof(klass) === 'function';
     }).map(function(klass) {
-        annotate(klass);
+
         var invalidDeps = klass.$inject.filter(function(inject) {
             return locals.indexOf(inject) === -1;
         });
@@ -102,7 +108,12 @@ function Container(container, dependencies, FileUtils, require, projectRoot, ann
     });
 
     function addClass(Class){
-        container.service(Class.name, Class);
+        if(AnnotationService.isAnnotation(Class)){
+            AnnotationService.addAnnotation(Class);
+        } else {
+            Class = AnnotationService.decorate(Class);
+            container.service(Class.name, Class);
+        }
         return Class;
     }
 

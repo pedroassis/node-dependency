@@ -18,6 +18,7 @@
   "author": "pedroassis",
   "license": "ISC",
   "dependencies": {
+    "conga-annotations": "git://github.com/pedroassis/conga-annotations",
     "ng-di": "0.1.0"
   },
   "repository": {
