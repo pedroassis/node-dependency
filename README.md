@@ -19,12 +19,12 @@ Well, you still have to call it once:
 ## Setup
 
 **index.js**
-
+```js
     var statupMethod = require('node-dependency');
     
     // You have to specify where your source folder is.
     statupMethod(__dirname, '/src');
-
+```
 This should be your index.js, and yes no other calls needed.
 
 
@@ -34,7 +34,7 @@ You also need a file called **ProjectBootstrap.js** inside your source folder.
 
 This file is where you should start your application, and it should look like this:
 
-    
+```js
     // Note that you can get express from the contructor of your class,
     // no need to 'require' it, but you need to declare it in your package.json
 	function ProjectBootstrap(express){
@@ -50,6 +50,7 @@ This file is where you should start your application, and it should look like th
     }
     // Is required to export the function
     module.exports = ProjectBootstrap;
+```
 
 Note that you have to inject your own dependencies on ProjectBootstrap in order to start you app, node-dependency instantiates in lazy mode always.
 
@@ -99,11 +100,13 @@ Aside from this file you don't need to explicitly declare or inject anything, ev
 
 see
 
+```js
     // Named function means it is a Class
     function SideWalk(Q, request, WaterLine){
 	    Person.walk();
 	}
 	module.exports = SideWalk;
+```
 
 This module is a dependency manager for NodeJS based on https://github.com/jmendiara/ng-di, which is based on AngularJS's dependency injector.
 
@@ -127,6 +130,7 @@ See for yourself:
 
 **Person.js**
 
+```js
     // Named function means it is a Class
     function Person(){
 	    var place = 0;
@@ -135,17 +139,19 @@ See for yourself:
 		}
 	}
 	module.exports = Person;
-
+```
 Now if you need a Person somewhere you can just receive as a dependency.
 
 **SideWalk.js**
 
+```js
     // Named function means it is a Class
     function SideWalk(Person){
 	    Person.walk();
 	}
 	module.exports = SideWalk;
 
+```
 
 2. Object Dependency
 -------
@@ -160,12 +166,13 @@ ConfigFile.json
 
 You can inject this object as you did with a Class like object.
 
+```js
     // Named function means it is a Class
     function SideWalk(Person, ConfigFile){
 	    Person.walk(ConfigFile.some_key);
 	}
 	module.exports = SideWalk;
-
+```
 
 3. Function Object
 -------
@@ -186,6 +193,7 @@ Angular module thinks it's a Class function and tries to instantiate a object.
 
 If you create a function that works like that one you'll have to declare it a little different:
 
+```js
     function SomeFunction(){
 		// do something
 	}
@@ -195,11 +203,13 @@ If you create a function that works like that one you'll have to declare it a li
 	module.exports = function(Dependency){
 		return SomeFunction;
 	};
-	
+```
+
 When you declare a anonymous function we assume that this isn't a Class like function, and make it available as is.
 
 To use that function:
 
+```js
     // Named function means it is a Class
     function SideWalk(Person, ConfigFile, SomeFunction){
 	    Person.walk(ConfigFile.some_key);
@@ -209,7 +219,7 @@ To use that function:
 		SomeFunction({});
 	}
 	module.exports = SideWalk;
-
+```
 ## Error Handling
 If you declare a class or function with an dependency that does not exists in the container, node-dependency will display a message on your console warning you what class has missing dependencies and which are its names.
 
