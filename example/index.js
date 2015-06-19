@@ -1,6 +1,6 @@
 
 // You should require node-dependency
-var statupMethod = require('../index.js');
+var statupMethod = require('node-dependency');
 
 /* 
  *  The returned value is a function which take 2 parameters: rootFolder, sourceFolder

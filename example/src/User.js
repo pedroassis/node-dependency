@@ -1,16 +1,23 @@
-'@Request'
+
 '@BeforeLoadContainer'
-function User(){
+function NodeDependencyPlugin(){
 
-    "@Put('/save')"
-    '@InjectAnnotated'
-    this.update = function(user) {
-        return userService.update(user);
+    var RequestHandler = 'RequestHandler';
+
+    var Get = 'Get';
+
+    "@ConfigurateContainer"
+    this.configure = function(AnnotationService) {
+        AnnotationService.getInstances(RequestHandler, function(instances) {
+            instances.forEach(runConfigMethods);
+        });
     };
 
-    // @Get('/find')
-    this.get = function() {
-        return userService.getAll();
-    };
+    function runConfigMethods (instance) {
+        var methods = AnnotationService.getAnnotatedMethods(instance, Get);
+
+    }
 
 }
+
+module.exports = User;

@@ -4,8 +4,6 @@ var AnnotationServiceClass      = require('../Service/AnnotationService');
 var ContainerConfigurationClass = require('./ContainerConfiguration');
 
 var AnnotationService           = new AnnotationServiceClass();
-var Activator                   = new ActivatorClass();
-var ContainerConfiguration      = new ContainerConfigurationClass(AnnotationService);
 
 function Container(container, dependencies, FileUtils, require, projectRoot, variableRegex, StringUtils){
 
@@ -22,6 +20,9 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
     var hasError;
 
     container.constant('rootFolder', projectRoot);
+
+    var AnnotationService = new AnnotationServiceClass(container.run.bind(container));
+    var ContainerConfiguration = new ContainerConfigurationClass(AnnotationService);
 
     container.service('AnnotationService', function() {
         return AnnotationService;

@@ -1,24 +1,23 @@
 
 var BeforeLoadContainer = 'BeforeLoadContainer';
 
-var InjectAnnotated = 'InjectAnnotated';
+var ConfigurateContainer = 'ConfigurateContainer';
 
 function ContainerConfiguration (AnnotationService) {
     
     this.configure = function configure (container) {
-        var instances = AnnotationService.getInstances(BeforeLoadContainer);
-        instances.forEach(runConfigMethods);
+        AnnotationService.getInstances(BeforeLoadContainer, function(instances) {
+            instances.forEach(runConfigMethods);
+        });
     }
 
     function runConfigMethods (instance) {
-        var methods = AnnotationService.getAnnotatedMethods(instance, InjectAnnotated);
+        var methods = AnnotationService.getAnnotatedMethods(instance, ConfigurateContainer);
         methods.forEach(getTargetAnnotation);
     }
 
     function getTargetAnnotation (method) {
-        var targetAnnotation = method.annotation;
-        var instances = AnnotationService.getInstances(targetAnnotation);
-        method(instances);
+        method(AnnotationService);
     }
 
 }

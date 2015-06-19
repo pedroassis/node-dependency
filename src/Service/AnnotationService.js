@@ -1,12 +1,14 @@
 
 var getMetadata = require('js-annotation-reader').getMetadata;
 
+require("ng-di"); // work around #11 of ng-di
+
 var annotate = require("ng-di/lib/injector.js").annotate; // work around #11 of ng-di
 
 var Hashmap = require('hashmap');
 
 
-function AnnotationService () {
+function AnnotationService(configurate) {
 
     var annotations = [];
     var annotatedClasses = {};
@@ -36,21 +38,21 @@ function AnnotationService () {
         /**
          * Decorating your class
          */
-        var newClass = function() {
-            var newThis = klass.apply(this, arguments);
-            var instances = instancesOfAnnotatedClasses.has(klass) ? instancesOfAnnotatedClasses.get(klass) : [];
-            instances.push(this);
-            instancesOfAnnotatedClasses.set(klass, instances);
-            this.prototype = newThis.prototype;
-        }
+        // var newClass = function() {
+        //     var newThis = klass.apply(this, arguments);
+        //     var instances = instancesOfAnnotatedClasses.has(klass) ? instancesOfAnnotatedClasses.get(klass) : [];
+        //     instances.push(this);
+        //     instancesOfAnnotatedClasses.set(klass, instances);
+        //     this.prototype = newThis.prototype;
+        // }
 
         annotate(klass);
 
-        newClass.$inject = klass.$inject;
+        // newClass.$inject = klass.$inject;
 
-        newClass.name = klass.name;
+        // newClass.name = klass.name;
 
-        return constructorAnnotations.length ? newClass : klass;
+        return klass;
     }
 
     /**
@@ -69,13 +71,19 @@ function AnnotationService () {
      * @param {String} annotationName
      * @returns {Array<Object>}
      */ 
-    this.getInstances = function getInstances(annotationName){
-        var instances = [];
+    this.getInstances = function getInstances(annotationName, callback){
+
         var classes = this.getClasses(annotationName);
-        for (var i = classes.length - 1; i >= 0; i--) {
-            instances.push.apply(instancesOfAnnotatedClasses.get(classes[i]));
+
+        var toInject = function() {
+            callback(Array.prototype.slice.call(arguments));
         };
-        return instances;
+
+        toInject.$inject = classes.map(function(klass) {
+            return klass.name;
+        });
+
+        configurate(toInject);
     };
 
     /**
@@ -86,16 +94,18 @@ function AnnotationService () {
      * @returns {Array<Function>}
      */ 
     this.getAnnotatedMethods = function getAnnotatedMethods(instance, annotation){
-        var type = instance.prototype;
+        var type = instance.constructor;
         var methodsMetadata = classesReaders.has(type) ? classesReaders.get(type).methods : [];
 
-        var annotations = methodsMetadata.filter(function(methodMetadata) {
-            return methodMetadata.name === annotation;
+        var methods = methodsMetadata.filter(function(methodMetadata) {
+            return methodMetadata.annotations.some(function(methodAnnotation) {
+                return methodAnnotation.name === annotation;
+            });
         });
 
-        return annotations.map(function(annotation) {
-            var method = instance[annotation.target].bind(instance);
-            method.annotation = annotation;
+        return methods.map(function(method) {
+            var method = instance[method.name].bind(instance);
+            method.annotations = method.annotations;
             return method;
         });
     };
