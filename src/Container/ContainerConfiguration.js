@@ -1,7 +1,7 @@
 
 var BeforeLoadContainer = 'BeforeLoadContainer';
 
-var ConfigurateContainer = 'ConfigurateContainer';
+var InjectAnnotatedWith = 'InjectAnnotatedWith';
 
 function ContainerConfiguration (AnnotationService) {
     
@@ -12,12 +12,27 @@ function ContainerConfiguration (AnnotationService) {
     }
 
     function runConfigMethods (instance) {
-        var methods = AnnotationService.getAnnotatedMethods(instance, ConfigurateContainer);
+        var methods = AnnotationService.getAnnotatedMethods(instance, InjectAnnotatedWith);
         methods.forEach(getTargetAnnotation);
     }
 
     function getTargetAnnotation (method) {
-        method(AnnotationService);
+        var injectAnnotatedWith;
+        for (var i = method.annotations.length - 1; i >= 0; i--) {
+            injectAnnotatedWith = method.annotations[i].name === InjectAnnotatedWith ? method.annotations[i] : injectAnnotatedWith;
+        }
+        var instances = [];
+        var annotations = injectAnnotatedWith.value;
+        var callNumber = 0;
+        for (var i = annotations.length - 1; i >= 0; i--) {
+            AnnotationService.getInstances(annotations[i].name, function(received) {
+                instances.push.apply(instances, received);
+                callNumber = callNumber + 1;
+                if(callNumber >= annotations.length){
+                    method(instances);
+                }
+            })
+        }
     }
 
 }
