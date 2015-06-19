@@ -10,6 +10,10 @@ function FileUtils (rootFolder, fs) {
 
         return fpath.substring(fpath.lastIndexOf('/')+1, fpath.lastIndexOf('.'));
     };
+
+    this.readSync = function(filename) {
+        return fs.readFileSync(filename, 'UTF-8');
+    };
     
     function getFiles(dir, files_){
         files_ = files_ || [];

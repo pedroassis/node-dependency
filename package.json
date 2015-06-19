@@ -18,7 +18,8 @@
   "author": "pedroassis",
   "license": "ISC",
   "dependencies": {
-    "conga-annotations": "git://github.com/pedroassis/conga-annotations",
+    "js-annotation-reader": "git://github.com/pedroassis/js-annotation-reader",
+    "hashmap": "^2.0.3",
     "ng-di": "0.1.0"
   },
   "repository": {

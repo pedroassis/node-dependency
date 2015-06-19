@@ -1,10 +1,16 @@
+'@Request'
+'@BeforeLoadContainer'
+function User(){
 
-// @BeforeLoadContainer
-function User (httpConfig) {
-    
-    // @InjectAnnotated(target=@BeforeLoadContainer)
-    this.get = function get (items) {
-        console.log(items);
-    }
+    "@Put('/save')"
+    '@InjectAnnotated'
+    this.update = function(user) {
+        return userService.update(user);
+    };
+
+    // @Get('/find')
+    this.get = function() {
+        return userService.getAll();
+    };
 
 }

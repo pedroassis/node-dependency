@@ -1,6 +1,11 @@
 
-var AnnotationService       = new require('./AnnotationService')();
-var ContainerConfiguration  = new require('./ContainerConfiguration')(AnnotationService);
+var ActivatorClass              = require('../Service/Activator');
+var AnnotationServiceClass      = require('../Service/AnnotationService');
+var ContainerConfigurationClass = require('./ContainerConfiguration');
+
+var AnnotationService           = new AnnotationServiceClass();
+var Activator                   = new ActivatorClass();
+var ContainerConfiguration      = new ContainerConfigurationClass(AnnotationService);
 
 function Container(container, dependencies, FileUtils, require, projectRoot, variableRegex, StringUtils){
 
@@ -104,16 +109,14 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
         return;
     }
 
+    ContainerConfiguration.configure(container);
+
     container.run(function(ProjectBootstrap){
     });
 
-    function addClass(Class){
-        if(AnnotationService.isAnnotation(Class)){
-            AnnotationService.addAnnotation(Class);
-        } else {
-            Class = AnnotationService.decorate(Class);
-            container.service(Class.name, Class);
-        }
+    function addClass(Class, filename){
+        var decoratedClass = AnnotationService.decorate(Class, FileUtils.readSync(filename));
+        container.service(Class.name, decoratedClass);
         return Class;
     }
 

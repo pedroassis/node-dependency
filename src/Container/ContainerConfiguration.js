@@ -1,7 +1,7 @@
 
-var BeforeLoadContainer = require('../Annotation/BeforeLoadContainerAnnotation');
+var BeforeLoadContainer = 'BeforeLoadContainer';
 
-var InjectAnnotated = require('../Annotation/InjectAnnotated');
+var InjectAnnotated = 'InjectAnnotated';
 
 function ContainerConfiguration (AnnotationService) {
     
@@ -16,9 +16,11 @@ function ContainerConfiguration (AnnotationService) {
     }
 
     function getTargetAnnotation (method) {
-        var targetAnnotation = method.annotation.targets;
+        var targetAnnotation = method.annotation;
         var instances = AnnotationService.getInstances(targetAnnotation);
         method(instances);
     }
 
 }
+
+module.exports = ContainerConfiguration;
