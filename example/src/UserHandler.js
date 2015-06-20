@@ -1,11 +1,11 @@
-'@RequestHandler("user")'
+'@RequestHandler("/user")'
 function UserHandler () {
     
-    '@Get("/all")'
-    this.fetchAll = function() {
-        return [{
+    '@Get'
+    this.fetchAll = function(resolver, request) {
+        resolver.resolve([{
             name : 'USER!'
-        }]
+        }]);
     };
 
 }

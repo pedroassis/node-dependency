@@ -9,11 +9,17 @@ function HTTPConfig(HTTPServer, rootFolder, httpConfig){
 
     httpServer.start();
 
-    HTTPBinders.forEach(function(HandlerClass){
 
-        httpServer.addCRUD(HandlerClass);
-    });
+    this.bindAll = function(HTTPBinders) {
+        HTTPBinders.forEach(function(HandlerClass){
 
+            httpServer.addCRUD(HandlerClass);
+        });
+    };
+
+    this.bind = function(HTTPBinder) {
+        httpServer.addCRUD(HTTPBinder);
+    };
 
     expressAdapter.addStaticFolder(rootFolder + '/frontend');
 

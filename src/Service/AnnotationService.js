@@ -38,21 +38,29 @@ function AnnotationService(configurate) {
         /**
          * Decorating your class
          */
-        // var newClass = function() {
-        //     var newThis = klass.apply(this, arguments);
-        //     var instances = instancesOfAnnotatedClasses.has(klass) ? instancesOfAnnotatedClasses.get(klass) : [];
-        //     instances.push(this);
-        //     instancesOfAnnotatedClasses.set(klass, instances);
-        //     this.prototype = newThis.prototype;
-        // }
+        var newClass = function() {
+            klass.apply(this, arguments);
+            var instances = instancesOfAnnotatedClasses.has(klass) ? instancesOfAnnotatedClasses.get(klass) : [];
+            instances.push(this);
+            instancesOfAnnotatedClasses.set(klass, instances);
+
+            for (var i = classMetadata.methods.length - 1; i >= 0; i--) {
+                var method = classMetadata.methods[i];
+                this[method.name].annotations = method.annotations;
+            }
+        }
 
         annotate(klass);
 
-        // newClass.$inject = klass.$inject;
+        newClass.$inject = klass.$inject;
 
-        // newClass.name = klass.name;
+        newClass.annotations = constructorAnnotations;
 
-        return klass;
+        newClass.name = klass.name;
+
+        newClass.source = klass;
+
+        return newClass;
     }
 
     /**
@@ -94,7 +102,7 @@ function AnnotationService(configurate) {
      * @returns {Array<Function>}
      */ 
     this.getAnnotatedMethods = function getAnnotatedMethods(instance, annotation){
-        var type = instance.constructor;
+        var type = instance.constructor.source;
         var methodsMetadata = classesReaders.has(type) ? classesReaders.get(type).methods : [];
 
         var methods = methodsMetadata.filter(function(methodMetadata) {
@@ -104,9 +112,9 @@ function AnnotationService(configurate) {
         });
 
         return methods.map(function(method) {
-            var method = instance[method.name].bind(instance);
-            method.annotations = method.annotations;
-            return method;
+            var bindedMethod = instance[method.name].bind(instance);
+            bindedMethod.annotations = method.annotations;
+            return bindedMethod;
         });
     };
 

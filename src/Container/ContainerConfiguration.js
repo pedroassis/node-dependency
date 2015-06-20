@@ -7,13 +7,18 @@ function ContainerConfiguration (AnnotationService) {
     
     this.configure = function configure (container) {
         AnnotationService.getInstances(BeforeLoadContainer, function(instances) {
-            instances.forEach(runConfigMethods);
+            instances.forEach(function(instance) {
+                runConfigMethods(instance);
+            });
         });
     }
 
     function runConfigMethods (instance) {
         var methods = AnnotationService.getAnnotatedMethods(instance, InjectAnnotatedWith);
-        methods.forEach(getTargetAnnotation);
+        var callNumber = 0;
+        methods.forEach(function(method) {
+            getTargetAnnotation(method);
+        });
     }
 
     function getTargetAnnotation (method) {

@@ -5,7 +5,7 @@ var ContainerConfigurationClass = require('./ContainerConfiguration');
 
 var AnnotationService           = new AnnotationServiceClass();
 
-function Container(container, dependencies, FileUtils, require, projectRoot, variableRegex, StringUtils){
+function Container(container, dependencies, FileUtils, require, projectRoot, variableRegex, StringUtils, runner){
 
     var LOOKUP = {};
 
@@ -21,7 +21,8 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
 
     container.constant('rootFolder', projectRoot);
 
-    var AnnotationService = new AnnotationServiceClass(container.run.bind(container));
+    var AnnotationService = new AnnotationServiceClass(runner.run.bind(runner));
+
     var ContainerConfiguration = new ContainerConfigurationClass(AnnotationService);
 
     container.service('AnnotationService', function() {

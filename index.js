@@ -21,8 +21,14 @@ module.exports = function(projectRoot, projectSources) {
 
     var StringUtils         = require('./src/Service/StringUtils');
 
-    new Container(container, dependencies, fileUtils, require, projectRoot, variableRegex, StringUtils);
+    var FunctionRunner      = require('./src/Service/FunctionRunner');
 
-    ngDI.injector(['Application']);
+    var runner              = new FunctionRunner(container);
+
+    new Container(container, dependencies, fileUtils, require, projectRoot, variableRegex, StringUtils, runner);
+
+    runner.shouldCache = true;
+
+    runner.setInjector(ngDI.injector(['Application']));
 
 };

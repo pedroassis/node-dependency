@@ -5,7 +5,7 @@
  * 
  * The App class with be instantiated, and it will start a express service.
  */
-function ProjectBootstrap () {
+function ProjectBootstrap (UserHandler) {
 }
 
 module.exports = ProjectBootstrap;
