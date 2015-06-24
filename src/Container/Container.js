@@ -126,14 +126,17 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
                 return service;
             }
             getService.$inject = [name];
-            container.service(decoratedClass.packaged + name, getService);
+            var fullname = decoratedClass.packaged + '.' + name;
+            locals.push(fullname);
+            container.service(fullname, getService);
         }
         return Class;
     }
 
     function addFunction(funktion, fileName){
         var name = FileUtils.getFileName(fileName);
-        container.factory(funktion.className || name, funktion);
+        funktion.className = funktion.className || name;
+        container.factory(funktion.className, funktion);
         return funktion;
     }
 
