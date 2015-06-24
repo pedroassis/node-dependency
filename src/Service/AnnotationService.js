@@ -59,12 +59,7 @@ function AnnotationService(configurate) {
 
         newClass.prototype = klass.prototype;
 
-        return Object.defineProperty(newClass, "name", {
-            value: klass.name,
-            writable: true,
-            enumerable: true,
-            configurable: true
-        });
+        return newClass;
     }
 
     function populateMetadata (klass, metadata) {        
