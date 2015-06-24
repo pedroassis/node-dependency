@@ -33,11 +33,14 @@ function AnnotationService(configurate) {
             var name = constructorAnnotations[i].name;
             annotatedClasses[name] = annotatedClasses[name] || [];
             annotatedClasses[name].push(klass);
-            classesReaders.set(klass, classMetadata);
+            classesReaders.set(klass.prototype, classMetadata);
         };
 
         /**
          * Decorating the class, making it look as close as we can
+         * As we still don't have control over the instantiation, we 
+         * need to intercept the new instance
+         * TODO - Remove angular module
          */
         var newClass = function() {
             klass.apply(this, arguments);
@@ -51,13 +54,8 @@ function AnnotationService(configurate) {
             }
         }
 
-        newClass.annotations = constructorAnnotations;
-        newClass.imports     = classMetadata.imports;
-        newClass.packaged    = classMetadata.packaged;
-        
-        klass.annotations = constructorAnnotations;
-        klass.imports     = classMetadata.imports;
-        klass.packaged    = classMetadata.packaged;
+        populateMetadata(klass, classMetadata);
+        populateMetadata(newClass, classMetadata);
 
         newClass.prototype = klass.prototype;
 
@@ -67,6 +65,14 @@ function AnnotationService(configurate) {
             enumerable: true,
             configurable: true
         });
+    }
+
+    function populateMetadata (klass, metadata) {        
+        klass.annotations = metadata.annotations;
+        klass.imports     = metadata.imports;
+        klass.packaged    = metadata.packaged;
+        klass.methods     = metadata.methods;
+        klass.$inject     = metadata.parameters;
     }
 
     /**

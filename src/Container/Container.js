@@ -131,12 +131,9 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
         return Class;
     }
 
-    function addFunction(funktion){
-        if(!funktion.className){
-            var functionText = funktion.toString ? funktion.toString() : funktion;
-            throw new Error("Anonymous function without a className property, you should define a className to register your function.\n" + functionText);
-        }
-        container.factory(funktion.className, funktion);
+    function addFunction(funktion, fileName){
+        var name = FileUtils.getFileName(fileName);
+        container.factory(funktion.className || name, funktion);
         return funktion;
     }
 
