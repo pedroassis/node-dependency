@@ -117,8 +117,17 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
     });
 
     function addClass(Class, filename){
+        var name = Class.name;
         var decoratedClass = AnnotationService.decorate(Class, FileUtils.readSync(filename));
-        container.service(Class.name, decoratedClass);
+        container.service(name, decoratedClass);
+        // Keep the same instance for injects with package
+        if(decoratedClass.packaged){
+            function getService(service) {
+                return service;
+            }
+            getService.$inject = [name];
+            container.service(decoratedClass.packaged + name, getService);
+        }
         return Class;
     }
 

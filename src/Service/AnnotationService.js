@@ -1,3 +1,4 @@
+"use strict";
 
 var getMetadata = require('js-annotation-reader').getMetadata;
 
@@ -36,7 +37,7 @@ function AnnotationService(configurate) {
         };
 
         /**
-         * Decorating your class
+         * Decorating the class, making it look as close as we can
          */
         var newClass = function() {
             klass.apply(this, arguments);
@@ -50,17 +51,22 @@ function AnnotationService(configurate) {
             }
         }
 
-        annotate(klass);
-
-        newClass.$inject = klass.$inject;
-
         newClass.annotations = constructorAnnotations;
+        newClass.imports     = classMetadata.imports;
+        newClass.packaged    = classMetadata.packaged;
+        
+        klass.annotations = constructorAnnotations;
+        klass.imports     = classMetadata.imports;
+        klass.packaged    = classMetadata.packaged;
 
-        newClass.name = klass.name;
+        newClass.prototype = klass.prototype;
 
-        newClass.source = klass;
-
-        return newClass;
+        return Object.defineProperty(newClass, "name", {
+            value: klass.name,
+            writable: true,
+            enumerable: true,
+            configurable: true
+        });
     }
 
     /**
@@ -102,7 +108,7 @@ function AnnotationService(configurate) {
      * @returns {Array<Function>}
      */ 
     this.getAnnotatedMethods = function getAnnotatedMethods(instance, annotation){
-        var type = instance.constructor.source;
+        var type = instance.prototype;
         var methodsMetadata = classesReaders.has(type) ? classesReaders.get(type).methods : [];
 
         var methods = methodsMetadata.filter(function(methodMetadata) {

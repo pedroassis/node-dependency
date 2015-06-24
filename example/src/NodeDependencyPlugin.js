@@ -10,7 +10,7 @@ function NodeDependencyPlugin(HTTPConfig){
         "Options",
         "Patch",
         "Head"
-    ]
+    ];
 
     "@InjectAnnotatedWith([@RequestHandler])"
     this.configure = function(instances) {
