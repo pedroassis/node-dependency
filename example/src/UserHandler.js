@@ -1,7 +1,6 @@
 
-
 '@RequestHandler("/user")'
-function UserHandler () {
+function UserHandler (ProjectBootstrap) {
     
     '@Get("/all")'
     this.fetchAll = function() {

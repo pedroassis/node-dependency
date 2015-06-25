@@ -1,8 +1,8 @@
 
 function FileUtils (rootFolder, fs) {
     
-    this.getAllJS = function getAllJS () {
-        return getFiles(rootFolder);
+    this.getAllJS = function getAllJS (folder) {
+        return getFiles(folder || rootFolder);
     }
 
     this.getFileName = function(fullName) {

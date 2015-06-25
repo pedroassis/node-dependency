@@ -1,9 +1,11 @@
 
-var ActivatorClass              = require('../Service/Activator');
-var AnnotationServiceClass      = require('../Service/AnnotationService');
-var ContainerConfigurationClass = require('./ContainerConfiguration');
+var ActivatorClass              = require('../Service/Activator.js');
+var AnnotationServiceClass      = require('../Service/AnnotationService.js');
+var PluginServiceClass      = require('../Service/PluginService.js');
+var ContainerConfigurationClass = require('./ContainerConfiguration.js');
 
 var AnnotationService           = new AnnotationServiceClass();
+var PluginService           = new PluginServiceClass();
 
 function Container(container, dependencies, FileUtils, require, projectRoot, variableRegex, StringUtils, runner){
 
@@ -62,7 +64,13 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
         });
     });
 
-    var classes = files.sort(function(a, b){
+    var plugins = PluginService.filter(dependencies).map(function(dependency) {
+        return PluginService.getFolder(dependency);
+    });
+
+    var allFiles = files.concat(plugins);
+
+    var classes = allFiles.sort(function(a, b){
         a.length > b.length;
     }).map(function(file){
 
@@ -119,7 +127,10 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
     function addClass(Class, filename){
         var name = Class.name;
         var decoratedClass = AnnotationService.decorate(Class, FileUtils.readSync(filename));
-        container.service(name, decoratedClass);
+        // Only use top level name for user defined classes
+        if(plugins.indexOf(filename) === -1){
+            container.service(name, decoratedClass);
+        } else
         // Keep the same instance for injects with package
         if(decoratedClass.packaged){
             function getService(service) {
@@ -129,6 +140,8 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
             var fullname = decoratedClass.packaged + '.' + name;
             locals.push(fullname);
             container.service(fullname, getService);
+        } else {
+            throw new Error("Package not provided a in plugin file: " + filename);
         }
         return Class;
     }
