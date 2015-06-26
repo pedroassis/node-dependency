@@ -8,6 +8,10 @@ var annotate = require("ng-di/lib/injector.js").annotate; // work around #11 of 
 
 var Hashmap = require('hashmap');
 
+var ArrayUtilsClass = require('./ArrayUtils.js');
+
+var ArrayUtils = new ArrayUtilsClass();
+
 
 function AnnotationService(configurate) {
 
@@ -43,15 +47,17 @@ function AnnotationService(configurate) {
          * TODO - Remove angular module
          */
         var newClass = function() {
-            klass.apply(this, arguments);
+            var returned = klass.apply(this, arguments);
             var instances = instancesOfAnnotatedClasses.has(klass) ? instancesOfAnnotatedClasses.get(klass) : [];
-            instances.push(this);
+            var instance = returned || this;
+            instances.push(instance);
             instancesOfAnnotatedClasses.set(klass, instances);
 
             for (var i = classMetadata.methods.length - 1; i >= 0; i--) {
                 var method = classMetadata.methods[i];
-                this[method.name].annotations = method.annotations;
+                instance[method.name].annotations = ArrayUtils.toMap(method.annotations);
             }
+            return instance;
         }
 
         populateMetadata(klass, classMetadata);
@@ -63,7 +69,7 @@ function AnnotationService(configurate) {
     }
 
     function populateMetadata (klass, metadata) {        
-        klass.annotations = metadata.annotations;
+        klass.annotations = ArrayUtils.toMap(metadata.annotations);
         klass.imports     = metadata.imports;
         klass.packaged    = metadata.packaged;
         klass.methods     = metadata.methods;
@@ -93,9 +99,10 @@ function AnnotationService(configurate) {
         var toInject = function() {
             callback(Array.prototype.slice.call(arguments));
         };
-
+        
         toInject.$inject = classes.map(function(klass) {
-            return klass.name;
+            var packaged = klass.packaged ? (klass.packaged + '.') : '';
+            return packaged + klass.name;
         });
 
         configurate(toInject);
@@ -109,13 +116,11 @@ function AnnotationService(configurate) {
      * @returns {Array<Function>}
      */ 
     this.getAnnotatedMethods = function getAnnotatedMethods(instance, annotation){
-        var type = instance.prototype;
-        var methodsMetadata = classesReaders.has(type) ? classesReaders.get(type).methods : [];
+        var type = instance.constructor;
+        var methodsMetadata = type.methods || {};
 
         var methods = methodsMetadata.filter(function(methodMetadata) {
-            return methodMetadata.annotations.some(function(methodAnnotation) {
-                return methodAnnotation.name === annotation;
-            });
+            return methodMetadata.annotations[annotation];
         });
 
         return methods.map(function(method) {

@@ -1,17 +1,25 @@
 
 
 function DependencyHelper (root, require) {
+
+    var packageJson         = require(root + "/package.json");
     
-    var Dependency = require(root + "/Dependency.json");
+    var packageDependencies = packageJson.dependencies;    
 
-    var deps       = require(root + "/package.json").dependencies;
+    var renaming            = Object.create(null);
 
-    var keys = Object.keys(deps);
+    var ndiNames            = packageJson.ndi && packageJson.ndi.names ? packageJson.ndi.names : {};
+
+    for(var i in ndiNames){
+        renaming[i] = ndiNames[i];
+    }
+
+    var keys = Object.keys(packageDependencies);
 
     var dependencies = keys.filter(function(dep) {
         return dep !== 'node-dependency';
     }).map(function (dep) {
-        var name = Dependency[dep] ? Dependency[dep] : dep;
+        var name = renaming[dep] ? renaming[dep] : dep;
         return {
 
             name : name,
@@ -19,7 +27,7 @@ function DependencyHelper (root, require) {
         }
     });
     
-    var nodeDependencies = Object.keys(Dependency).filter(function (dependency) {
+    var nodeDependencies = Object.keys(renaming).filter(function (dependency) {
         return keys.indexOf(dependency) === -1;
     }).map(function(dependency) {
         return {

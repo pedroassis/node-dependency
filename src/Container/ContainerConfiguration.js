@@ -22,14 +22,12 @@ function ContainerConfiguration (AnnotationService) {
     }
 
     function getTargetAnnotation (method) {
-        var injectAnnotatedWith;
-        for (var i = method.annotations.length - 1; i >= 0; i--) {
-            injectAnnotatedWith = method.annotations[i].name === InjectAnnotatedWith ? method.annotations[i] : injectAnnotatedWith;
-        }
+        var injectAnnotatedWith = method.annotations.InjectAnnotatedWith || {};
         var instances = [];
         var annotations = injectAnnotatedWith.value;
         var callNumber = 0;
-        for (var i = annotations.length - 1; i >= 0; i--) {
+        var size = annotations ? annotations.length - 1 : 0;
+        for (var i = size; i >= 0; i--) {
             AnnotationService.getInstances(annotations[i].name, function(received) {
                 instances.push.apply(instances, received);
                 callNumber = callNumber + 1;

@@ -1,5 +1,5 @@
 
-module.exports = function(projectRoot, projectSources) {
+module.exports = function(projectRoot) {
 
     var DependencyHelper    = require('./src/Service/DependencyHelper');
 
@@ -24,8 +24,12 @@ module.exports = function(projectRoot, projectSources) {
     var FunctionRunner      = require('./src/Service/FunctionRunner');
 
     var runner              = new FunctionRunner(container);
+    
+    var PluginServiceClass  = require('./src/Service/PluginService.js');
 
-    new Container(container, dependencies, fileUtils, require, projectRoot, variableRegex, StringUtils, runner);
+    var PluginService       = new PluginServiceClass(projectRoot);
+
+    new Container(container, dependencies, fileUtils, require, projectRoot, variableRegex, StringUtils, runner, PluginService);
 
     runner.shouldCache = true;
 

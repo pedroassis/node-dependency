@@ -1,13 +1,10 @@
 
 var ActivatorClass              = require('../Service/Activator.js');
 var AnnotationServiceClass      = require('../Service/AnnotationService.js');
-var PluginServiceClass      = require('../Service/PluginService.js');
 var ContainerConfigurationClass = require('./ContainerConfiguration.js');
 
-var AnnotationService           = new AnnotationServiceClass();
-var PluginService           = new PluginServiceClass();
 
-function Container(container, dependencies, FileUtils, require, projectRoot, variableRegex, StringUtils, runner){
+function Container(container, dependencies, FileUtils, require, projectRoot, variableRegex, StringUtils, runner, PluginService){
 
     var LOOKUP = {};
 
@@ -22,6 +19,8 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
     var hasError;
 
     container.constant('rootFolder', projectRoot);
+
+    container.service('ndi.FunctionRunner', runner);
 
     var AnnotationService = new AnnotationServiceClass(runner.run.bind(runner));
 
@@ -64,9 +63,7 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
         });
     });
 
-    var plugins = PluginService.filter(dependencies).map(function(dependency) {
-        return PluginService.getFolder(dependency);
-    });
+    var plugins = PluginService.getAll(dependencies, FileUtils);
 
     var allFiles = files.concat(plugins);
 
@@ -127,8 +124,9 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
     function addClass(Class, filename){
         var name = Class.name;
         var decoratedClass = AnnotationService.decorate(Class, FileUtils.readSync(filename));
+        var isPlugin = plugins.indexOf(filename) === -1;
         // Only use top level name for user defined classes
-        if(plugins.indexOf(filename) === -1){
+        if(!isPlugin){
             container.service(name, decoratedClass);
         } else
         // Keep the same instance for injects with package
@@ -139,7 +137,7 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
             getService.$inject = [name];
             var fullname = decoratedClass.packaged + '.' + name;
             locals.push(fullname);
-            container.service(fullname, getService);
+            container.service(fullname, isPlugin ? decoratedClass : getService);
         } else {
             throw new Error("Package not provided a in plugin file: " + filename);
         }
