@@ -13,7 +13,7 @@ function PluginService(rootFolder) {
     this.filter = function(dependencies) {
         return dependencies.filter(function(dependency) {
             var packageJSON = require(dependency.require + PACKAGE);
-            return packageJSON.ndi && packageJSON.ndi.isPlugin;
+            return packageJSON['node-dependency'] && packageJSON['node-dependency'].isPlugin;
         });
     };
 
@@ -21,7 +21,7 @@ function PluginService(rootFolder) {
      *  Get the plugin source folder
      */
     this.getFolder = function(dependency) {
-        var ndi = require(dependency.require + PACKAGE).ndi;
+        var ndi = require(dependency.require + PACKAGE)['node-dependency'];
         return path.join(NODE_MODULES, dependency.require, ndi.source);
     };
 
