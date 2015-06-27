@@ -1,6 +1,6 @@
 {
   "name": "node-dependency",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Dependency Injection for NodeJS, no more require() calls",
   "main": "index.js",
   "scripts": {

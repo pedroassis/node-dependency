@@ -21,7 +21,7 @@ module.exports = function(projectRoot) {
 
     var packageJson         = require(projectRoot + "/package.json");
 
-    var projectSources      = packageJson.ndi && packageJson.ndi.source ? packageJson.ndi.source : '/src';
+    var projectSources      = packageJson['node-dependency'] && packageJson['node-dependency'].source ? packageJson['node-dependency'].source : '/src';
 
     var fileUtils           = new FileUtils(path.join(projectRoot, projectSources), fs);
 

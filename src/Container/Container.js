@@ -20,7 +20,7 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
 
     container.constant('rootFolder', projectRoot);
     
-    container.service('ndi.FunctionRunner', function() {
+    container.service('nd.FunctionRunner', function() {
         return runner;
     });
 

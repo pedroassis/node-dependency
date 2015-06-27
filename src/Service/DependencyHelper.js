@@ -8,7 +8,7 @@ function DependencyHelper (root, require) {
 
     var renaming            = Object.create(null);
 
-    var ndiNames            = packageJson.ndi && packageJson.ndi.names ? packageJson.ndi.names : {};
+    var ndiNames            = packageJson['node-dependency'] && packageJson['node-dependency'].names ? packageJson['node-dependency'].names : {};
 
     for(var i in ndiNames){
         renaming[i] = ndiNames[i];
