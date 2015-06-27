@@ -7,7 +7,7 @@ function PluginService(rootFolder) {
     var NODE_MODULES = './node_modules';
     
     /**
-     *  Should filter out all dependencies that aren't a NDI plugin
+     *  Should filter out all dependencies that aren't a node-dependency plugin
      *  Returning all plugins in a new array.
      */
     this.filter = function(dependencies) {

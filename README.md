@@ -1,18 +1,18 @@
-ndi - Node Dependency Injection (Beta)
+node-dependency - Node Dependency Injection (Beta)
 ===============
 
 Autowiring dependencies to you JS files. Without hard-to-write configuration files.  
 You can cnfigure your files using annotations, yes annotatons. See [JS Annotations](https://github.com/pedroassis/js-annotation-reader).  
 You can also 'import' and declare 'package' inside your files to handle naming collisions.
 
-NDI has support for plugins too, for instance [NDI ExpressJS](https://github.com/pedroassis/ndi-express-plugin), this plugin allows you to write RESTFul services inspired by JAX-RS from Java.
+node-dependency has support for plugins too, for instance [node-dependency ExpressJS](https://github.com/pedroassis/node-dependency-express-plugin), this plugin allows you to write RESTFul services inspired by JAX-RS from Java.
 
-[Click here](https://github.com/pedroassis/NDI/tree/v2/examples) and browse our example folder to see how an app using ndi looks like.
+[Click here](https://github.com/pedroassis/node-dependency/tree/v2/examples) and browse our example folder to see how an app using node-dependency looks like.
 
 ## Installation
 
 ```bash
-$ npm install ndi
+$ npm install node-dependency
 ```
 
 **Never call 'require' again**.
@@ -22,7 +22,7 @@ Well, you still have to call it once:
 
 **index.js**
 
-    var statupMethod = require('ndi');
+    var statupMethod = require('node-dependency');
     
     // You have to specify where your source folder is.
     statupMethod(__dirname);
@@ -51,14 +51,14 @@ This file is where you should start your application, and it should look like th
     // Is required to export the function
     module.exports = ProjectBootstrap;
 
-Note that you have to inject your own dependencies on ProjectBootstrap in order to start you app, NDI instantiates in lazy mode always.
+Note that you have to inject your own dependencies on ProjectBootstrap in order to start you app, node-dependency instantiates in lazy mode always.
 
 
-That means if you don't inject anything on ProjectBootstrap NDI won't instantiate any other class.
+That means if you don't inject anything on ProjectBootstrap node-dependency won't instantiate any other class.
 
 ## Package Scan
 
-NDI will read your package.json and make every dependency declared in there available to inject, and it will read your source folder and declare all the JS and JSON files it can find too.
+node-dependency will read your package.json and make every dependency declared in there available to inject, and it will read your source folder and declare all the JS and JSON files it can find too.
 
 ## Configuration
 
@@ -76,7 +76,7 @@ But in your **package.json** you can have this configuration:
 
     {
         ...
-        "ndi" : {
+        "node-dependency" : {
             "names" : {
                 "request-promise"  : "request",
                 "ng-di"            : "ngDI",
@@ -110,15 +110,15 @@ see
 	module.exports = SideWalk;
 ```  
 
-This module is a dependency manager for NodeJS based on https://github.com/jmendiara/ng-di, which is based on AngularJS's dependency injector.
+This module is a dependency manager for NodeJS based on https://github.com/jmenode-dependencyara/ng-di, which is based on AngularJS's dependency injector.
 
 ng-di is great, but it doesn't work as it does in AngularJS because it lacks the environment.
 
-Adding NDI you'll have a environment to handle your dependencies, but as AngularJS you'll have to code for it, but it is worth it.
+Adding node-dependency you'll have a environment to handle your dependencies, but as AngularJS you'll have to code for it, but it is worth it.
 
 ## Dependency Types
 
-In NDI we have 3 types of dependencies:
+In node-dependency we have 3 types of dependencies:
 
 >  1. Class like function
 >  2. Object Dependency
@@ -126,7 +126,7 @@ In NDI we have 3 types of dependencies:
 
 1. Class like function
 -------
-That's the approach I like best when working with JS. You can write Class functions in JS, and NDI will create one instance of it and make it available for injection.
+That's the approach I like best when working with JS. You can write Class functions in JS, and node-dependency will create one instance of it and make it available for injection.
 
 See for yourself:
 
@@ -226,7 +226,7 @@ To use that function:
 ```
 
 ## Error Handling  
-If you declare a class or function with an dependency that does not exists in the container, NDI will display a message on your console warning you what class has missing dependencies and which are its names.  
+If you declare a class or function with an dependency that does not exists in the container, node-dependency will display a message on your console warning you what class has missing dependencies and which are its names.  
 
 Example:  
 	Could not declare BuildingsHandler because of missing dependencies.  

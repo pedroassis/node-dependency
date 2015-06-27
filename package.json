@@ -1,5 +1,5 @@
 {
-  "name": "ndi",
+  "name": "node-dependency",
   "version": "2.0.0",
   "description": "Dependency Injection for NodeJS, no more require() calls",
   "main": "index.js",
