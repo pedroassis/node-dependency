@@ -30,14 +30,14 @@ function AnnotationService(configurate) {
      * @returns {Function}
      */ 
     this.decorate = function decorate (klass, file) {
-        var classMetadata = getMetadata(file);
+        var classMetadata = readMetadata(klass, file);
 
         var constructorAnnotations = classMetadata.annotations;
+        classesReaders.set(klass.prototype, classMetadata);
         for (var i = constructorAnnotations.length - 1; i >= 0; i--) {
             var name = constructorAnnotations[i].name;
             annotatedClasses[name] = annotatedClasses[name] || [];
             annotatedClasses[name].push(klass);
-            classesReaders.set(klass.prototype, classMetadata);
         };
 
         /**
@@ -55,7 +55,8 @@ function AnnotationService(configurate) {
 
             for (var i = classMetadata.methods.length - 1; i >= 0; i--) {
                 var method = classMetadata.methods[i];
-                instance[method.name].annotations = ArrayUtils.toMap(method.annotations);
+                method.annotations = ArrayUtils.toMap(method.annotations, "name");
+                instance[method.name].annotations = method.annotations;
             }
             return instance;
         }
@@ -69,11 +70,21 @@ function AnnotationService(configurate) {
     }
 
     function populateMetadata (klass, metadata) {        
-        klass.annotations = ArrayUtils.toMap(metadata.annotations);
+        klass.annotations = ArrayUtils.toMap(metadata.annotations, "name");
         klass.imports     = metadata.imports;
         klass.packaged    = metadata.packaged;
         klass.methods     = metadata.methods;
         klass.$inject     = metadata.parameters;
+    }
+
+    function readMetadata (klass, file) {
+        try{
+            return getMetadata(file);
+        } catch(e){
+            var name = klass.name || klass.className;
+            console.error('Error while reading annotations from class ' + name);
+            throw e;
+        }
     }
 
     /**

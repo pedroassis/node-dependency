@@ -29,10 +29,10 @@ function ContainerConfiguration (AnnotationService) {
         var size = annotations ? annotations.length - 1 : 0;
         for (var i = size; i >= 0; i--) {
             AnnotationService.getInstances(annotations[i].name, function(received) {
-                instances.push.apply(instances, received);
+                instances.unshift(received);
                 callNumber = callNumber + 1;
                 if(callNumber >= annotations.length){
-                    method(instances);
+                    method.apply(null, instances);
                 }
             })
         }

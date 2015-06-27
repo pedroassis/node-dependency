@@ -15,9 +15,15 @@ module.exports = function(projectRoot) {
 
     var fs                  = require('fs');
 
+    var path                = require('path');
+
     var variableRegex       = require('./src/VariableNameRegex');
 
-    var fileUtils           = new FileUtils(projectRoot + projectSources, fs);
+    var packageJson         = require(projectRoot + "/package.json");
+
+    var projectSources      = packageJson.ndi && packageJson.ndi.source ? packageJson.ndi.source : '/src';
+
+    var fileUtils           = new FileUtils(path.join(projectRoot, projectSources), fs);
 
     var StringUtils         = require('./src/Service/StringUtils');
 

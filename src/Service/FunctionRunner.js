@@ -12,12 +12,12 @@ function FunctionRunner(container) {
         });
     };
 
-    this.run = function(funktion) {
-        return this.shouldCache ? cache.push(funktion) : run(funktion);
+    this.run = function(funktion, locals) {
+        return this.shouldCache ? cache.push(funktion) : run(funktion, locals);
     }
 
-    function run(funktion) {
-        return $injector ? $injector.invoke(funktion) : container.run(funktion);
+    function run(funktion, locals) {
+        return $injector ? $injector.invoke(funktion, null, locals) : container.run(funktion, locals);
     }
 
 }

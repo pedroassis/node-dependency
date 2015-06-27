@@ -11,3 +11,5 @@ function ArrayUtils () {
     };
 
 }
+
+module.exports = ArrayUtils;

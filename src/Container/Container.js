@@ -19,8 +19,10 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
     var hasError;
 
     container.constant('rootFolder', projectRoot);
-
-    container.service('ndi.FunctionRunner', runner);
+    
+    container.service('ndi.FunctionRunner', function() {
+        return runner;
+    });
 
     var AnnotationService = new AnnotationServiceClass(runner.run.bind(runner));
 
@@ -124,24 +126,20 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
     function addClass(Class, filename){
         var name = Class.name;
         var decoratedClass = AnnotationService.decorate(Class, FileUtils.readSync(filename));
-        var isPlugin = plugins.indexOf(filename) === -1;
+        var isPlugin = plugins.indexOf(filename) !== -1;
         // Only use top level name for user defined classes
-        if(!isPlugin){
+        if(!isPlugin && !decoratedClass.packaged){
             container.service(name, decoratedClass);
-        } else
-        // Keep the same instance for injects with package
+        }
         if(decoratedClass.packaged){
-            function getService(service) {
-                return service;
-            }
-            getService.$inject = [name];
-            var fullname = decoratedClass.packaged + '.' + name;
-            locals.push(fullname);
-            container.service(fullname, isPlugin ? decoratedClass : getService);
-        } else {
+            name = decoratedClass.packaged + '.' + name;
+            container.service(name, decoratedClass);
+        } else if (isPlugin){
             throw new Error("Package not provided a in plugin file: " + filename);
         }
-        return Class;
+        return {
+            name : name
+        };
     }
 
     function addFunction(funktion, fileName){
