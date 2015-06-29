@@ -106,7 +106,9 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
         hasError = true;
     });
 
-    if(locals.indexOf('ProjectBootstrap') === -1){
+    var bootstrapped = PluginService.hasBootstrapper(dependencies);
+
+    if(locals.indexOf('ProjectBootstrap') === -1 && !bootstrapped){
         console.log("We couldn't find a ProjectBootstrap class inside your source folder.");
         console.log("Please create your ProjectBootstrap as described on https://github.com/pedroassis/node-dependency/");
         return;
@@ -120,8 +122,10 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
 
     ContainerConfiguration.configure(container);
 
-    container.run(function(ProjectBootstrap){
-    });
+    if(locals.indexOf('ProjectBootstrap') !== -1){
+        container.run(function(ProjectBootstrap){
+        });
+    }
 
     function addClass(Class, filename){
         var name = Class.name;

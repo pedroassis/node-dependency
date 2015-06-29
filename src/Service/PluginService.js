@@ -16,6 +16,16 @@ function PluginService(rootFolder) {
             return packageJSON['node-dependency'] && packageJSON['node-dependency'].isPlugin;
         });
     };
+    
+    /**
+     *  Returns true if there's at least one plugin which bootstraps the project
+     */
+    this.hasBootstrapper = function(dependencies) {
+        return dependencies.some(function(dependency) {
+            var packageJSON = require(dependency.require + PACKAGE);
+            return packageJSON['node-dependency'] && packageJSON['node-dependency'].bootstraps;
+        });
+    };
 
     /**
      *  Get the plugin source folder
