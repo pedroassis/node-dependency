@@ -56,7 +56,8 @@ function AnnotationService(configurate) {
             for (var i = classMetadata.methods.length - 1; i >= 0; i--) {
                 var method = classMetadata.methods[i];
                 method.annotations = ArrayUtils.toMap(method.annotations, "name");
-                instance[method.name].annotations = method.annotations;
+                instance[method.name].annotations = method.annotations;  
+                instance[method.name].$inject     = method.parameters;
             }
             return instance;
         }
