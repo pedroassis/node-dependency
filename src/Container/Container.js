@@ -4,7 +4,7 @@ var AnnotationServiceClass      = require('../Service/AnnotationService.js');
 var ContainerConfigurationClass = require('./ContainerConfiguration.js');
 
 
-function Container(container, dependencies, FileUtils, require, projectRoot, variableRegex, StringUtils, runner, PluginService){
+function Container(container, dependencies, FileUtils, require, projectRoot, variableRegex, StringUtils, runner, PluginService, packageJson){
 
     var LOOKUP = {};
 
@@ -23,10 +23,18 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
     container.service('nd.FunctionRunner', function() {
         return runner;
     });
+    
+    container.service('nd.NodeDependencyConfig', function() {
+        return packageJson['node-dependency'];
+    });
+    
+    container.service('nd.Container', function() {
+        return container;
+    });
 
     var AnnotationService = new AnnotationServiceClass(runner.run.bind(runner));
 
-    var ContainerConfiguration = new ContainerConfigurationClass(AnnotationService);
+    var ContainerConfiguration = new ContainerConfigurationClass(AnnotationService, FileUtils, runner);
 
     container.service('AnnotationService', function() {
         return AnnotationService;
@@ -111,7 +119,7 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
     if(locals.indexOf('ProjectBootstrap') === -1 && !bootstrapped){
         console.log("We couldn't find a ProjectBootstrap class inside your source folder.");
         console.log("Please create your ProjectBootstrap as described on https://github.com/pedroassis/node-dependency/");
-        return;
+        throw new Error("We couldn't find a ProjectBootstrap class inside your source folder.");
     }
 
     if(hasError){
@@ -150,7 +158,9 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
         var name = FileUtils.getFileName(fileName);
         funktion.className = funktion.className || name;
         container.factory(funktion.className, funktion);
-        return funktion;
+        return {
+            name : funktion.className
+        };
     }
 
     function addJSON(jsonObject, fileName){

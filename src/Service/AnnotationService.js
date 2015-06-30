@@ -38,7 +38,7 @@ function AnnotationService(configurate) {
             var name = constructorAnnotations[i].name;
             annotatedClasses[name] = annotatedClasses[name] || [];
             annotatedClasses[name].push(klass);
-        };
+        }
 
         /**
          * Decorating the class, making it look as close as we can
@@ -79,6 +79,9 @@ function AnnotationService(configurate) {
     }
 
     function readMetadata (klass, file) {
+        if(klass.annotations){
+            return klass;
+        }
         try{
             return getMetadata(file);
         } catch(e){

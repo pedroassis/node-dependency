@@ -35,11 +35,13 @@ module.exports = function(projectRoot) {
 
     var PluginService       = new PluginServiceClass(projectRoot);
 
-    new Container(container, dependencies, fileUtils, require, projectRoot, variableRegex, StringUtils, runner, PluginService);
+    new Container(container, dependencies, fileUtils, require, projectRoot, variableRegex, StringUtils, runner, PluginService, packageJson);
 
     runner.shouldCache = true;
 
     runner.setInjector(ngDI.injector(['Application']));
+
+    return container;
 
 };
 

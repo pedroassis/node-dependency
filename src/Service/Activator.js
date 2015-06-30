@@ -2,7 +2,7 @@ var fs = require('fs');
 
 var vm = require('vm');
 
-var FileUtils = require('./FileUtils');
+// var FileUtils = require('./FileUtils');
 
 function Activator () {
 

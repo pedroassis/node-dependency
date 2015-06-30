@@ -1,21 +1,44 @@
 
-var BeforeLoadContainer = 'BeforeLoadContainer';
-
 var InjectAnnotatedWith = 'InjectAnnotatedWith';
 
-function ContainerConfiguration (AnnotationService) {
+var Configurations = require('./Configuration');
+
+function ContainerConfiguration (AnnotationService, FileUtils, runner) {
     
-    this.configure = function configure (container) {
-        AnnotationService.getInstances(BeforeLoadContainer, function(instances) {
-            instances.forEach(function(instance) {
-                runConfigMethods(instance);
-            });
-        });
+    this.configure = function configure (app) {
+        app.config(
+            function( $provide ) {
+
+                // Let's keep the older references.
+                app._service = app.service;
+                app._factory = app.factory;
+                app._value = app.value;
+                app._run = app.run;
+
+                // Provider-based service.
+                app.service = function( name, constructor ) {
+                    $provide.service( name, constructor );
+                    return( this );
+                };
+                // Provider-based factory.
+                app.factory = function( name, factory ) {
+                    $provide.factory( name, factory );
+                    return( this );
+                };
+                // Provider-based value.
+                app.value = function( name, value ) {
+                    $provide.value( name, value );
+                    return( this );
+                };
+                // Provider-based value.
+                app.run = runner.run.bind(runner);
+            }
+        );
+        Configurations(FileUtils, app, AnnotationService, runConfigMethods);
     }
 
     function runConfigMethods (instance) {
         var methods = AnnotationService.getAnnotatedMethods(instance, InjectAnnotatedWith);
-        var callNumber = 0;
         methods.forEach(function(method) {
             getTargetAnnotation(method);
         });
