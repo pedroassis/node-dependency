@@ -37,16 +37,16 @@ This file is where you should start your application, and it should look like th
     
     // Note that you can get express from the contructor of your class,
     // no need to 'require' it, but you need to declare it in your package.json
-	function ProjectBootstrap(express){
-	    var app = express()
+    function ProjectBootstrap(express){
+        var app = express()
 
-	    app.get('/', function (req, res) {
-	        res.send('Hello World!')
-	    })
+        app.get('/', function (req, res) {
+            res.send('Hello World!')
+        })
 
-	    var server = app.listen(3000, function () {
+        var server = app.listen(3000, function () {
 
-	    })
+        })
     }
     // Is required to export the function
     module.exports = ProjectBootstrap;
@@ -88,7 +88,7 @@ But in your **package.json** you can have this configuration:
             }
         }
         ...
-	}
+    }
 
 This will assign a different name for your dependencies, not only to make them valid, but also to make them better.
 
@@ -105,9 +105,9 @@ see
     "package sidewalk" // The package is only a declaration, does not have to be inside a folder named sidewalk
     // Named function means it is a Class
     function SideWalk(Q, request, WaterLine){
-	    Person.walk();
-	}
-	module.exports = SideWalk;
+        Person.walk();
+    }
+    module.exports = SideWalk;
 ```  
 
 This module is a dependency manager for NodeJS based on https://github.com/jmenode-dependencyara/ng-di, which is based on AngularJS's dependency injector.
@@ -135,12 +135,12 @@ See for yourself:
 ```js
     // Named function means it is a Class
     function Person(){
-	    var place = 0;
-		this.walk = function(){
-			return place++;
-		}
-	}
-	module.exports = Person;
+        var place = 0;
+        this.walk = function(){
+            return place++;
+        }
+    }
+    module.exports = Person;
 ```  
 
 Now if you need a Person somewhere you can just receive as a dependency.
@@ -152,9 +152,9 @@ Now if you need a Person somewhere you can just receive as a dependency.
 
     // Named function means it is a Class
     function SideWalk(Person){
-	    Person.walk();
-	}
-	module.exports = SideWalk;
+        Person.walk();
+    }
+    module.exports = SideWalk;
 ```  
 
 2. Object Dependency
@@ -165,16 +165,16 @@ Sometimes we need to depend upon an Object, in JS most likely a JSON
 ConfigFile.json
 ```js
     {
-		"some_key" : "some_value"
-	}
+        "some_key" : "some_value"
+    }
 ```  
 You can inject this object as you did with a Class like object.
 ```js
     // Named function means it is a Class
     function SideWalk(Person, ConfigFile){
-	    Person.walk(ConfigFile.some_key);
-	}
-	module.exports = SideWalk;
+        Person.walk(ConfigFile.some_key);
+    }
+    module.exports = SideWalk;
 ```
 
 3. Function Object
@@ -183,12 +183,12 @@ We also have a third type, mostly for compatibility sake.
 
 A function object works like most libraries for node, when you require something and it is a function and also have properties.
 ```js
-	// 'request' is a node library   
-	var request = require('request');
-	// It works as a function
-	request(someUrl).then(callback);
-	// And as a object
-	request.get(someUrl).then(callback);
+    // 'request' is a node library   
+    var request = require('request');
+    // It works as a function
+    request(someUrl).then(callback);
+    // And as a object
+    request.get(someUrl).then(callback);
 ```  
 
 There is nothing wrong with this approach, and it is widely used, but it does create a problem when declaring it as a dependency.
@@ -199,14 +199,14 @@ If you create a function that works like that one you'll have to declare it a li
 ```js
 
     function SomeFunction(){
-		// do something
-	}
-	SomeFunction.doSomethingElse = function(){};
-	
-	// Note that you can inject dependencies in the anonymous function.
-	module.exports = function(Dependency){
-		return SomeFunction;
-	};
+        // do something
+    }
+    SomeFunction.doSomethingElse = function(){};
+    
+    // Note that you can inject dependencies in the anonymous function.
+    module.exports = function(Dependency){
+        return SomeFunction;
+    };
 ```
 
 When you declare a anonymous function we assume that this isn't a Class like function, and make it available as is.
@@ -216,21 +216,21 @@ To use that function:
 
     // Named function means it is a Class
     function SideWalk(Person, ConfigFile, SomeFunction){
-	    Person.walk(ConfigFile.some_key);
-	
-		// Use it as you will
-		SomeFunction.doSomethingElse()
-		SomeFunction({});
-	}
-	module.exports = SideWalk;
+        Person.walk(ConfigFile.some_key);
+    
+        // Use it as you will
+        SomeFunction.doSomethingElse()
+        SomeFunction({});
+    }
+    module.exports = SideWalk;
 ```
 
 ## Error Handling  
 If you declare a class or function with an dependency that does not exists in the container, node-dependency will display a message on your console warning you what class has missing dependencies and which are its names.  
 
 Example:  
-	Could not declare BuildingsHandler because of missing dependencies.  
-	Invalid dependencies: MissingDep  
+    Could not declare BuildingsHandler because of missing dependencies.  
+    Invalid dependencies: MissingDep  
 
 
 > Written with [StackEdit](https://stackedit.io/).
