@@ -33,8 +33,11 @@ This should be your index.js, and yes no other calls needed.
 
 You also need a file called **ProjectBootstrap.js** inside your source folder.
 
+Note that if you have a plugin that bootstraps the project, like [node-dependency ExpressJS](https://github.com/pedroassis/nd-express-plugin), you won't need this file.
+
 This file is where you should start your application, and it should look like this:
-    
+
+```js    
     // Note that you can get express from the contructor of your class,
     // no need to 'require' it, but you need to declare it in your package.json
     function ProjectBootstrap(express){
@@ -50,6 +53,7 @@ This file is where you should start your application, and it should look like th
     }
     // Is required to export the function
     module.exports = ProjectBootstrap;
+```
 
 Note that you have to inject your own dependencies on ProjectBootstrap in order to start you app, node-dependency instantiates in lazy mode always.
 
