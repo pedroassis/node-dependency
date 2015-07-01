@@ -13,7 +13,7 @@ function PluginService(rootFolder) {
      */
     this.filter = function(dependencies) {
         return dependencies.filter(function(dependency) {
-            var packageJSON = fs.existsSync(dependency.require + PACKAGE) && require(dependency.require + PACKAGE);
+            var packageJSON = getPackage(dependency.require + PACKAGE);
             return packageJSON && packageJSON['node-dependency'] && packageJSON['node-dependency'].isPlugin;
         });
     };
@@ -23,10 +23,16 @@ function PluginService(rootFolder) {
      */
     this.hasBootstrapper = function(dependencies) {
         return dependencies.some(function(dependency) {
-            var packageJSON = fs.existsSync(dependency.require + PACKAGE) && require(dependency.require + PACKAGE);
-            return packageJSON['node-dependency'] && packageJSON['node-dependency'].bootstraps;
+            var packageJSON = getPackage(dependency.require + PACKAGE);
+            return packageJSON && packageJSON['node-dependency'] && packageJSON['node-dependency'].bootstraps;
         });
     };
+
+    function getPackage (path) {
+        try {
+            return require(path);
+        }catch(e){}
+    }
 
     /**
      *  Get the plugin source folder
