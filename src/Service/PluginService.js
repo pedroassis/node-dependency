@@ -1,9 +1,10 @@
 
 var path = require('path');
+var fs = require('fs');
 
 function PluginService(rootFolder) {
 
-    var PACKAGE = '/package';
+    var PACKAGE = '/package.json';
     var NODE_MODULES = './node_modules';
     
     /**
@@ -12,8 +13,8 @@ function PluginService(rootFolder) {
      */
     this.filter = function(dependencies) {
         return dependencies.filter(function(dependency) {
-            var packageJSON = require(dependency.require + PACKAGE);
-            return packageJSON['node-dependency'] && packageJSON['node-dependency'].isPlugin;
+            var packageJSON = fs.existsSync(dependency.require + PACKAGE) && require(dependency.require + PACKAGE);
+            return packageJSON && packageJSON['node-dependency'] && packageJSON['node-dependency'].isPlugin;
         });
     };
     
@@ -22,7 +23,7 @@ function PluginService(rootFolder) {
      */
     this.hasBootstrapper = function(dependencies) {
         return dependencies.some(function(dependency) {
-            var packageJSON = require(dependency.require + PACKAGE);
+            var packageJSON = fs.existsSync(dependency.require + PACKAGE) && require(dependency.require + PACKAGE);
             return packageJSON['node-dependency'] && packageJSON['node-dependency'].bootstraps;
         });
     };

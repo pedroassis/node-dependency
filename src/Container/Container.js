@@ -1,5 +1,4 @@
 
-var ActivatorClass              = require('../Service/Activator.js');
 var AnnotationServiceClass      = require('../Service/AnnotationService.js');
 var ContainerConfigurationClass = require('./ContainerConfiguration.js');
 
@@ -36,7 +35,7 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
 
     var ContainerConfiguration = new ContainerConfigurationClass(AnnotationService, FileUtils, runner);
 
-    container.service('AnnotationService', function() {
+    container.service('nd.AnnotationService', function() {
         return AnnotationService;
     });
 

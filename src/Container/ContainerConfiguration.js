@@ -20,16 +20,6 @@ function ContainerConfiguration (AnnotationService, FileUtils, runner) {
                     $provide.service( name, constructor );
                     return( this );
                 };
-                // Provider-based factory.
-                app.factory = function( name, factory ) {
-                    $provide.factory( name, factory );
-                    return( this );
-                };
-                // Provider-based value.
-                app.value = function( name, value ) {
-                    $provide.value( name, value );
-                    return( this );
-                };
                 // Provider-based value.
                 app.run = runner.run.bind(runner);
             }

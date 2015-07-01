@@ -4,6 +4,10 @@ var expect                  = chai.expect;
 var fs                      = require('fs');
 var path                    = require('path');
 
+var packageJSON             = require('./project/package.json');
+
+var jsonDeps                = Object.keys(packageJSON.dependencies);
+
 var FileUtils               = require('../src/Service/FileUtils');
 var AnnotationServiceClass  = require('../src/Service/AnnotationService.js');
 
@@ -11,16 +15,7 @@ var root                    = path.join(__dirname, 'project');
 
 var fileUtils               = new FileUtils(path.join(root, 'src'), fs);
 
-// You should require node-dependency
-var statupMethod = require('../');
-
-/* 
- *  The returned value is a function which take 1 parameters: rootFolder
- *  After that node-dependency will read your source folder and load all your classes
- *  and instantiate the class named ProjectBootstrap, this file can be anywhere inside
- *  your source folder
- */
-var container = statupMethod(path.join(__dirname, 'project'));
+var container               = require('./getContainer')();
 
 var AnnotationService;
 
@@ -60,6 +55,59 @@ var JS_TYPES = [
 ];
 
 describe('Container Behavior', function() {
+    var exposedClasses = ['nd.FunctionRunner', 'nd.NodeDependencyConfig', 'nd.Container', 'nd.AnnotationService'];
+
+    describe("Should provide a " + exposedClasses.join(', '), function() {
+        function getter () {
+            var args = Array.prototype.slice.call(arguments);
+
+            it('Should have injected all instances of the internal classes', function() {
+                expect(args.length).to.be.equal(exposedClasses.length);
+            });
+
+            args.forEach(function(dependency, i) {
+
+                it('Should have injected a instance of ' + exposedClasses[i], function() {
+
+                    expect(dependency).to.be.ok;
+                    var index = JS_TYPES.indexOf(dependency.constructor);
+                    var constructor = index !== -1 ? JS_TYPES[index] : dependency.constructor;
+
+                    expect(dependency.constructor).to.be.equal(constructor);
+
+                })
+            });
+            
+        }
+        getter.$inject = exposedClasses;
+
+        container.run(getter);
+    });
+
+    describe("Should have declared all dependencies from package.json: " + jsonDeps.join(', '), function() {
+        function getter () {
+            var args = Array.prototype.slice.call(arguments);
+
+            it('Should have injected all the external dependencies', function() {
+                expect(args.length).to.be.equal(jsonDeps.length);
+            });
+
+            args.forEach(function(dependency, i) {
+
+                it('Should have injected the result of requiring ' + jsonDeps[i], function() {
+
+                    expect(dependency).to.be.ok;
+
+                    expect(dependency).to.be.equal(require(jsonDeps[i]));
+
+                })
+            });
+            
+        }
+        getter.$inject = jsonDeps;
+
+        container.run(getter);
+    });
 
     describe("Should inject all dependencies", function() {
         getDependencies.$inject = names;

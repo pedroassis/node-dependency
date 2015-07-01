@@ -9,7 +9,8 @@
   "author": "Pedro Assis <pedro@pedroassis.com.br> (https://github.com/pedroassis)",
   "license": "ISC",
   "dependencies": {
-    "node-dependency": "^2.0.3"
+    "fs" : "*",
+    "path" : "*"
   },
   "node-dependency": {
     "source": "src"
