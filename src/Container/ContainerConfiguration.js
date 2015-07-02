@@ -49,6 +49,9 @@ function ContainerConfiguration (AnnotationService, FileUtils, runner) {
                 }
             })
         }
+        if(size === -1){
+            method();
+        }
     }
 
 }
