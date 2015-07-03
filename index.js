@@ -21,7 +21,11 @@ module.exports = function(projectRoot) {
 
     var packageJson         = require(projectRoot + "/package.json");
 
-    var projectSources      = packageJson['node-dependency'] && packageJson['node-dependency'].source ? packageJson['node-dependency'].source : '/src';
+    packageJson['node-dependency'] = packageJson['node-dependency'] || {};
+
+    packageJson['node-dependency'].source = packageJson['node-dependency'].source || 'src'
+
+    var projectSources      = packageJson['node-dependency'].source;
 
     var fileUtils           = new FileUtils(path.join(projectRoot, projectSources), fs);
 
