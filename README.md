@@ -5,9 +5,13 @@ Autowiring dependencies to you JS files. Without hard-to-write configuration fil
 You can cnfigure your files using annotations, yes annotatons. See [JS Annotations](https://github.com/pedroassis/js-annotation-reader).  
 You can also 'import' and declare 'package' inside your files to handle naming collisions.
 
-node-dependency has support for plugins too, for instance [node-dependency ExpressJS](https://github.com/pedroassis/nd-express-plugin), this plugin allows you to write RESTFul services inspired by JAX-RS from Java.
+node-dependency has support for plugins too, for instance:  
 
-[Click here](https://github.com/pedroassis/node-dependency/tree/v2/examples) and browse our example folder to see how an app using node-dependency looks like.
+[ExpressJS Plugin](https://github.com/pedroassis/nd-express-plugin), this plugin allows you to write RESTFul services inspired by JAX-RS from Java.  
+
+[MongoDB Plugin](https://github.com/pedroassis/nd-mongo), this plugin helps you serve Mongo Collections through a REST API using node-dependency and nd-express-plugin with almost no code.  
+
+[Click here](https://github.com/pedroassis/node-dependency/examples) and browse our example folder to see how an app using node-dependency looks like.  
 
 ## Installation
 
