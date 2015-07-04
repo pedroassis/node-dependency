@@ -135,8 +135,9 @@ function Container(container, dependencies, FileUtils, require, projectRoot, var
     }
 
     function addClass(Class, filename){
-        var name = Class.name;
         var decoratedClass = AnnotationService.decorate(Class, FileUtils.readSync(filename));
+        var name = decoratedClass.className || Class.name;
+
         var isPlugin = plugins.indexOf(filename) !== -1;
         // Only use top level name for user defined classes
         if(!isPlugin && !decoratedClass.packaged){

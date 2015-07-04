@@ -12,6 +12,8 @@ var ArrayUtilsClass = require('./ArrayUtils.js');
 
 var ArrayUtils = new ArrayUtilsClass();
 
+var Named = "Named";
+
 
 function AnnotationService(configurate) {
 
@@ -66,6 +68,10 @@ function AnnotationService(configurate) {
         populateMetadata(newClass, classMetadata);
 
         newClass.prototype = klass.prototype;
+
+        var named = newClass.annotations.Named && newClass.annotations.Named.value;
+
+        newClass.className = named ? named : klass.name;
 
         return newClass;
     }

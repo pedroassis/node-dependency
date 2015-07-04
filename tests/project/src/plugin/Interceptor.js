@@ -1,5 +1,6 @@
 
 "@Interceptor"
+"@Named('interceptor')"
 function Interceptor () {
     
     this.arguments = arguments;
