@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Node-Dependency </title>
+    <link>http://yet.unresolved.xyz/tags/object-oriented/</link>
+    <language>en-us</language>
+    <author>Pedro Assis</author>
+    <rights>(C) 2015</rights>
+    <updated>2015-07-04 12:14:38 -0300 BRT</updated>
+
+    
+      
+        <item>
+          <title>Classes in JavaScript</title>
+          <link>http://yet.unresolved.xyz/post/Classes/</link>
+          <pubDate>Sat, 04 Jul 2015 12:14:38 BRT</pubDate>
+          <author>Pedro Assis</author>
+          <guid>http://yet.unresolved.xyz/post/Classes/</guid>
+          <description>
+
+&lt;h4 id=&#34;i-see-a-lot-of-design-patterns-on-nodejs-most-of-then-i-don-t-like:20d1ea64521c4978f84dc5ec94fb9248&#34;&gt;I see a lot of design patterns on NodeJS, most of then I don&amp;rsquo;t like.&lt;/h4&gt;
+
+&lt;p&gt;These NodeJS design patterns help us build fast applications using JavaScript, but they might lead to crappy code.&lt;/p&gt;
+
+&lt;p&gt;Node-Dependency apps must follow some JS design patterns that I think are the easiest to learn for a programmer used to OOP.&lt;/p&gt;
+
+&lt;p&gt;For instance:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;    // You can define Class-like functions with JS
+    function MyClass(){}
+
+    var myInstance = new MyClass();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is pretty straight forward and anyone used to OOP will understand that.&lt;/p&gt;
+
+&lt;p&gt;But is not a class as you&amp;rsquo;ll get with Java or C# or whatever.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;    
+    function Person(name){ 
+        // The &#39;name&#39; is receive in the constructor and is a private variable
+        // This is the constructor of your class
+        // You can define private and public properties
+
+        var lastName = &#39; is awesome!&#39;;  // Private variable
+        this.lastName = name + lastName; // this.lastName is a public variable
+
+        this.getFullName = function(){
+            return name + &amp;quot; kind of&amp;quot; + lastName;
+        };
+    }
+
+    var someone = new Person(&amp;quot;Mary&amp;quot;);
+
+    console.log(someone.lastName); // &amp;quot;Mary is awesome!&amp;quot;
+    console.log(someone.getFullName()); // &amp;quot;Mary kind of is awesome!&amp;quot;
+    console.log(someone.name); // undefined
+    console.log(someone.lastName); // &amp;quot; is awesome!&amp;quot;
+
+    someone.name = &amp;quot;John&amp;quot;;
+
+    console.log(someone.getFullName()); // &amp;quot;Mary kind of is awesome!&amp;quot;
+
+    // You can see that &#39;name&#39; is a private variable,
+    // and you cant access it outside the Class scope.
+
+    // When changed &#39;name&#39; to &amp;quot;John&amp;quot;, you haven&#39;t changed anything. 
+    // You accually created a new property in the same level as &#39;this.lastName&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is pretty neat, right?&lt;/p&gt;
+
+&lt;p&gt;Looking at Person class you might say that it has a dependency upon name.&lt;/p&gt;
+
+&lt;p&gt;This is JS, so you are not required to provide the name upon object creation.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;    var someone = new Person();
+
+    console.log(someone.getFullName()); // &amp;quot;undefined kind of is awesome!&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hnm!&lt;/p&gt;
+</description>
+        </item>
+      
+    
+
+  </channel>
+</rss>
