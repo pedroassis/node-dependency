@@ -1,7 +1,7 @@
 BaseUrl: "http://yet.unresolved.xyz"
 LanguageCode: "en-us"
 Title: "Node-Dependency"
-Theme: "beg"
+Theme: "hugo_theme_beg"
 disqusShortname: "nodedependency"
 
 Params:
