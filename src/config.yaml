@@ -3,6 +3,7 @@ LanguageCode: "en-us"
 Title: "Node-Dependency"
 Theme: "hugo_theme_beg"
 disqusShortname: "nodedependency"
+publishdir: "public"
 
 Params:
   Author: "Pedro Assis"
