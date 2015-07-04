@@ -1,0 +1,19 @@
+BaseUrl: "http://yet.unresolved.xyz"
+LanguageCode: "en-us"
+Title: "Node-Dependency"
+Theme: "beg"
+disqusShortname: "nodedependency"
+
+Params:
+  Author: "Pedro Assis"
+  DateForm: "Mon, 2 Jan, 2006"
+  GoogleAnalyticsUserID: "UA-55005303-5"
+  Github: "pedroassis"
+  ShowRelatedPost: True
+  Disqus: "nodedependency"
+  SyntaxHighlightTheme: "github.min.css"
+
+Indexes:
+  tag: "tags"
+
+MetadataFormat: "yaml"
