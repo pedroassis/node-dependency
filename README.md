@@ -1,6 +1,8 @@
 node-dependency - Node Dependency Injection (Beta)
 ===============
 
+[View Site](http://node-dependency.pedroassis.com.br/)  
+
 Autowiring dependencies to you JS files. Without hard-to-write configuration files.  
 You can cnfigure your files using annotations, yes annotatons. See [JS Annotations](https://github.com/pedroassis/js-annotation-reader).  
 You can also 'import' and declare 'package' inside your files to handle naming collisions.
