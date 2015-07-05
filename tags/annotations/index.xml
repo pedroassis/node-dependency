@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Node-Dependency </title>
-    <link>http://pedroassis.github.io/node-dependency/tags/annotations/</link>
+    <link>http://node-dependency.pedroassis.com.br/tags/annotations/</link>
     <language>en-us</language>
     <author>Pedro Assis</author>
     <rights>(C) 2015</rights>
@@ -12,10 +12,10 @@
       
         <item>
           <title>JS and Annotations</title>
-          <link>http://pedroassis.github.io/node-dependency/post/UseStrict/</link>
+          <link>http://node-dependency.pedroassis.com.br/post/JS-Annotations/</link>
           <pubDate>Sat, 04 Jul 2015 21:55:18 BRT</pubDate>
           <author>Pedro Assis</author>
-          <guid>http://pedroassis.github.io/node-dependency/post/UseStrict/</guid>
+          <guid>http://node-dependency.pedroassis.com.br/post/JS-Annotations/</guid>
           <description>
 
 &lt;p&gt;Since ECMAScript 5 specification it was introduced the &amp;lsquo;use strict&amp;rsquo; directive, which is used to declared that the code inside the scope of the &amp;lsquo;use strict&amp;rsquo; should use a subset of the JavaScript language.&lt;/p&gt;
@@ -43,11 +43,11 @@
 
 &lt;hr /&gt;
 
-&lt;h3 id=&#34;time-to-use-it-too:8447fb13ca2caef7bdc99e159162ed4c&#34;&gt;Time to use it too!&lt;/h3&gt;
+&lt;h3 id=&#34;time-to-use-it-too:d7338891ff065b1ca5fd0fae23813d48&#34;&gt;Time to use it too!&lt;/h3&gt;
 
 &lt;p&gt;So we already know that annotations exists in JS, they look like code, in fact they are a &lt;code&gt;Literal Expression&lt;/code&gt;, but they just get vaccued into the void, not meaning anything to normal JS code.&lt;/p&gt;
 
-&lt;h4 id=&#34;how-can-we-use-it:8447fb13ca2caef7bdc99e159162ed4c&#34;&gt;How can we use it?&lt;/h4&gt;
+&lt;h4 id=&#34;how-can-we-use-it:d7338891ff065b1ca5fd0fae23813d48&#34;&gt;How can we use it?&lt;/h4&gt;
 
 &lt;p&gt;Pretty good question, JS does not provide a simple way of using it.
 I was going to suggest writing a parser to read the code and detect those annotations.&lt;br /&gt;
@@ -159,7 +159,7 @@ function UserHandler () {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h5 id=&#34;and-we-get-this-result:8447fb13ca2caef7bdc99e159162ed4c&#34;&gt;And we get this result:&lt;/h5&gt;
+&lt;h5 id=&#34;and-we-get-this-result:d7338891ff065b1ca5fd0fae23813d48&#34;&gt;And we get this result:&lt;/h5&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;{
     &amp;quot;name&amp;quot;: &amp;quot;UserHandler&amp;quot;,
