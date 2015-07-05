@@ -9,13 +9,13 @@
 
 
 <meta property="og:type" content="article">
-<meta property="og:title" content="Classes in JavaScript &middot; Node-Dependency">
+<meta property="og:title" content="JS and Annotations &middot; Node-Dependency">
 
 <meta property="og:site_name" content="Node-Dependency">
 
 <title>
     
-    Classes in JavaScript
+    JS and Annotations
     
 </title>
 
@@ -84,88 +84,212 @@
                     </time>
                 </div>
                 <h1 class="post-title">
-                    <a href="http://localhost:1313/node-dependency/post/Classes/">Classes in JavaScript</a>
+                    <a href="http://localhost:1313/node-dependency/post/UseStrict/">JS and Annotations</a>
                 </h1>
             </header>
 
             <div class="post-content">
                 
 
-<h4 id="i-see-a-lot-of-design-patterns-on-nodejs-most-of-then-i-don-t-like:20d1ea64521c4978f84dc5ec94fb9248">I see a lot of design patterns on NodeJS, most of then I don&rsquo;t like.</h4>
+<p>Since ECMAScript 5 specification it was introduced the &lsquo;use strict&rsquo; directive, which is used to declared that the code inside the scope of the &lsquo;use strict&rsquo; should use a subset of the JavaScript language.</p>
 
-<p>These NodeJS design patterns help us build fast applications using JavaScript, but they might lead to crappy code.</p>
+<hr />
 
-<p>Node-Dependency apps must follow some JS design patterns that I think are the easiest to learn for a programmer used to OOP.</p>
+<p>It means that the same code should run different of the same code without it, for instance, you can&rsquo;t declare a global variable in the following way:</p>
 
-<p>For instance:</p>
-
-<pre><code class="language-js">    // You can define Class-like functions with JS
-    function MyClass(){}
-
-    var myInstance = new MyClass();
+<pre><code class="language-js">    someNumber = 123;
 </code></pre>
 
-<p>This is pretty straight forward and anyone used to OOP will understand that.</p>
+<p>The code above will run in any browser, declaring <code>someNumber</code> in the global scope because of the missing <code>var</code>.</p>
 
-<p>But is not a class as you&rsquo;ll get with Java or C# or whatever.</p>
+<hr />
 
-<pre><code class="language-js">    
-    function Person(name){ 
-        // The 'name' is receive in the constructor and is a private variable
-        // This is the constructor of your class
-        // You can define private and public properties
+<pre><code class="language-js">    'use strict';
+    someNumber = 123; // ReferenceError: someNumber is not defined
+</code></pre>
 
-        var lastName = ' is awesome!';  // Private variable
-        this.lastName = name + lastName; // this.lastName is a public variable
+<p>The second snippet runs in strict mode and will throw a error on browsers ES5 compatible, because of using a variable that was not defined.</p>
 
-        this.getFullName = function(){
-            return name + &quot; kind of&quot; + lastName;
+<p>And the same code will run without any problems in all browsers that do not support the ES5 especification.</p>
+
+<p>Recently ASM started using a annotation <code>use asm</code> to define that a code should be run as a fast subset of JS (Pretty fast accually).</p>
+
+<hr />
+
+<h3 id="time-to-use-it-too:8447fb13ca2caef7bdc99e159162ed4c">Time to use it too!</h3>
+
+<p>So we already know that annotations exists in JS, they look like code, in fact they are a <code>Literal Expression</code>, but they just get vaccued into the void, not meaning anything to normal JS code.</p>
+
+<h4 id="how-can-we-use-it:8447fb13ca2caef7bdc99e159162ed4c">How can we use it?</h4>
+
+<p>Pretty good question, JS does not provide a simple way of using it.
+I was going to suggest writing a parser to read the code and detect those annotations.<br />
+JS is such a powerful language that you can accually do it.</p>
+
+<p>But this would take a little bit of time, and reading annotations is not what we need right now, we need to use it.</p>
+
+<p>Then I&rsquo;ve found there are a lot of JS parsers out there and I chose <a href="http://esprima.org">Esprima</a> to the job.</p>
+
+<p>Esprima is pretty cool, it reads your JS code and returns a Node Tree with the parsed code.</p>
+
+<p>Let&rsquo;s read the following function and see what we get.</p>
+
+<pre><code class="language-js">function Person(name){};
+JSON.stringify(esprima.parse('function Person(name){}'), null, 4) 
+// Or JSON.stringify(esprima.parse(Person.toString()), null, 4) 
+{
+    &quot;type&quot;: &quot;Program&quot;,
+    &quot;body&quot;: [
+        {
+            &quot;type&quot;: &quot;FunctionDeclaration&quot;,
+            &quot;id&quot;: {
+                &quot;type&quot;: &quot;Identifier&quot;,
+                &quot;name&quot;: &quot;Person&quot;
+            },
+            &quot;params&quot;: [
+                {
+                    &quot;type&quot;: &quot;Identifier&quot;,
+                    &quot;name&quot;: &quot;name&quot;
+                }
+            ],
+            &quot;defaults&quot;: [],
+            &quot;body&quot;: {
+                &quot;type&quot;: &quot;BlockStatement&quot;,
+                &quot;body&quot;: []
+            },
+            &quot;generator&quot;: false,
+            &quot;expression&quot;: false
+        }
+    ]
+}
+</code></pre>
+
+<p>Esprima read a bunch of data out of the function.</p>
+
+<p>It has identified that this is a <code>FunctionDeclaration</code>, with name <code>Person</code> and a parameter called <code>name</code>.<br />
+And also the <code>body</code> of the function, which is empty.</p>
+
+<p>That&rsquo;s cool! How about this:</p>
+
+<pre><code class="language-js">
+var code = &quot;'use strict'&quot; +
+           &quot;\n&quot; +
+           &quot;function Person(name){}&quot;;
+
+JSON.stringify(esprima.parse(code), null, 4)
+{
+    &quot;type&quot;: &quot;Program&quot;,
+    &quot;body&quot;: [
+        {
+            &quot;type&quot;: &quot;ExpressionStatement&quot;,
+            &quot;expression&quot;: {
+                &quot;type&quot;: &quot;Literal&quot;,
+                &quot;value&quot;: &quot;use strict&quot;,
+                &quot;raw&quot;: &quot;\&quot;use strict\&quot;&quot;
+            }
+        },
+        {
+            &quot;type&quot;: &quot;FunctionDeclaration&quot;,
+            &quot;id&quot;: {
+                &quot;type&quot;: &quot;Identifier&quot;,
+                &quot;name&quot;: &quot;Person&quot;
+            }
+            ...
+        }
+    ]
+}
+
+</code></pre>
+
+<p>Now we can read the annotations from the source code, we can see in the JSON that we have a <code>use strict</code> before our function.</p>
+
+<p>This is how we extract annotations from JS files on <a href="https://github.com/pedroassis/js-annotation-reader">js-annotation-reader</a>, which is the module used by <a href="https://github.com/pedroassis/node-dependency">node-dependency</a> to enable annotation support.</p>
+
+<p>Using this technique I wrote js-annotation-reader, and using it you can read a file like this:</p>
+
+<pre><code class="language-js">'package com.pedro'
+
+'@RequestHandler(&quot;/user&quot;)'
+function UserHandler () {
+    
+    '@Get(&quot;/all&quot;)'
+    this.fetchAll = function() {
+        return [{
+            name : 'USER!'
+        }, {
+            anotherOne : 1234567
+        }];
+    };
+    
+    '@Get(&quot;/id/:id&quot;)'
+    this.getByID = function($id) {
+        return {
+            userID : $id,
+            name : &quot;aSDFGHJKL&quot;
         };
-    }
+    };
 
-    var someone = new Person(&quot;Mary&quot;);
-
-    console.log(someone.lastName); // &quot;Mary is awesome!&quot;
-    console.log(someone.getFullName()); // &quot;Mary kind of is awesome!&quot;
-    console.log(someone.name); // undefined
-    console.log(someone.lastName); // &quot; is awesome!&quot;
-
-    someone.name = &quot;John&quot;;
-
-    console.log(someone.getFullName()); // &quot;Mary kind of is awesome!&quot;
-
-    // You can see that 'name' is a private variable,
-    // and you cant access it outside the Class scope.
-
-    // When changed 'name' to &quot;John&quot;, you haven't changed anything. 
-    // You accually created a new property in the same level as 'this.lastName'
+}
 </code></pre>
 
-<p>This is pretty neat, right?</p>
+<h5 id="and-we-get-this-result:8447fb13ca2caef7bdc99e159162ed4c">And we get this result:</h5>
 
-<p>Looking at Person class you might say that it has a dependency upon name.</p>
-
-<p>This is JS, so you are not required to provide the name upon object creation.</p>
-
-<pre><code class="language-js">    var someone = new Person();
-
-    console.log(someone.getFullName()); // &quot;undefined kind of is awesome!&quot;
+<pre><code class="language-js">{
+    &quot;name&quot;: &quot;UserHandler&quot;,
+    &quot;packaged&quot;: &quot;com.pedro&quot;,
+    &quot;parameters&quot;: [],
+    &quot;annotations&quot;: [
+        {
+            &quot;name&quot;: &quot;RequestHandler&quot;,
+            &quot;value&quot;: &quot;/user&quot;,
+            &quot;targets&quot;: &quot;UserHandler&quot;
+        }
+    ],
+    &quot;imports&quot;: [],
+    &quot;methods&quot;: [
+        {
+            &quot;annotations&quot;: [
+                {
+                    &quot;name&quot;: &quot;Get&quot;,
+                    &quot;value&quot;: &quot;/all&quot;,
+                    &quot;targets&quot;: &quot;fetchAll&quot;
+                }
+            ],
+            &quot;parameters&quot;: [],
+            &quot;name&quot;: &quot;fetchAll&quot;
+        },
+        {
+            &quot;annotations&quot;: [
+                {
+                    &quot;name&quot;: &quot;Get&quot;,
+                    &quot;value&quot;: &quot;/id/:id&quot;,
+                    &quot;targets&quot;: &quot;getByID&quot;
+                }
+            ],
+            &quot;parameters&quot;: [
+                &quot;$id&quot;
+            ],
+            &quot;name&quot;: &quot;getByID&quot;
+        }
+    ]
+}
 </code></pre>
 
-<p>Hnm!</p>
+<p>If you are wondering in what this can be used, just check this out <a href="https://github.com/pedroassis/nd-express-plugin">Express Plugin</a></p>
+
+<p>References:</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#Making_eval_and_arguments_simpler">Mozilla&rsquo;s MDN</a></p>
+
+<p><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-directive-prologues-and-the-use-strict-directive">ECMAScript 5</a></p>
+
+<p><a href="http://asmjs.org/spec/latest/">ASM.js</a></p>
 
             </div>
 
             <aside>
                 
                 <ul class="list-inline post-tags">
-                    
-                    <li>
-                        <a href="http://localhost:1313/node-dependency//tags/patterns">
-                            <i class="fa fa-tags"></i>
-                            Patterns
-                        </a>
-                    </li>
                     
                     <li>
                         <a href="http://localhost:1313/node-dependency//tags/javascript">
@@ -175,23 +299,30 @@
                     </li>
                     
                     <li>
-                        <a href="http://localhost:1313/node-dependency//tags/object-oriented">
+                        <a href="http://localhost:1313/node-dependency//tags/use-strict">
                             <i class="fa fa-tags"></i>
-                            Object Oriented
+                            use strict
                         </a>
                     </li>
                     
                     <li>
-                        <a href="http://localhost:1313/node-dependency//tags/class-like">
+                        <a href="http://localhost:1313/node-dependency//tags/annotations">
                             <i class="fa fa-tags"></i>
-                            Class-like
+                            annotations
                         </a>
                     </li>
                     
                     <li>
-                        <a href="http://localhost:1313/node-dependency//tags/di">
+                        <a href="http://localhost:1313/node-dependency//tags/es5">
                             <i class="fa fa-tags"></i>
-                            DI
+                            ES5
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="http://localhost:1313/node-dependency//tags/esprima">
+                            <i class="fa fa-tags"></i>
+                            esprima
                         </a>
                     </li>
                     
@@ -207,11 +338,11 @@
                     
                     
                     
-                    <li><a href="http://localhost:1313/node-dependency/post/UseStrict/">JS and Annotations</a></li>
                     
                     
                     
                     
+                    <li><a href="http://localhost:1313/node-dependency/post/Classes/">Classes in JavaScript</a></li>
                     
                     
                 </ul>
@@ -224,13 +355,13 @@
                     <ul class="pager">
 
                         
-                        <li class="previous"><a href="http://localhost:1313/node-dependency/post/UseStrict/"><span aria-hidden="true">&larr;</span> Older</a></li>
+                        <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
                         
 
                         <li><a href="http://localhost:1313/node-dependency//post">All Posts</a></li>
 
                         
-                        <li class="next disabled"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
+                        <li class="next"><a href="http://localhost:1313/node-dependency/post/Classes/">Newer <span aria-hidden="true">&rarr;</span></a></li>
                         
 
                     </ul>

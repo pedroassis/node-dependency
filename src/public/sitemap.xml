@@ -2,13 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yet.unresolved.xyz/</loc>
-    <lastmod>2015-07-04T12:14:38-03:00</lastmod>
+    <loc>http://localhost:1313/node-dependency/</loc>
+    <lastmod>2015-07-04T21:55:18-03:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://yet.unresolved.xyz/post/Classes/</loc>
+    <loc>http://localhost:1313/node-dependency/post/UseStrict/</loc>
+    <lastmod>2015-07-04T21:55:18-03:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/node-dependency/post/Classes/</loc>
     <lastmod>2015-07-04T12:14:38-03:00</lastmod>
   </url>
   
