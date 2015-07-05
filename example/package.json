@@ -1,0 +1,17 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "Example of node-dependency usage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pedro Assis <pedro@pedroassis.com.br> (https://github.com/pedroassis)",
+  "license": "ISC",
+  "dependencies": {
+    "node-dependency": "^2.0.3"
+  },
+  "node-dependency": {
+    "source": "src"
+  }
+}

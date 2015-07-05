@@ -1,0 +1,35 @@
+{
+  "name": "node-dependency",
+  "version": "2.0.9",
+  "description": "Dependency Injection for NodeJS, no more require() calls",
+  "main": "index.js",
+  "keywords": [
+    "dependencies",
+    "DI",
+    "container",
+    "angularjs",
+    "injection",
+    "autowire",
+    "dependency"
+  ],
+  "devDependencies": {
+    "mocha": "^1.21.5",
+    "sinon": "*",
+    "chai": "^1.9.2"
+  },
+  "author": "pedroassis",
+  "license": "ISC",
+  "dependencies": {
+    "js-annotation-reader": "git://github.com/pedroassis/js-annotation-reader",
+    "hashmap": "^2.0.3",
+    "ng-di": "0.1.0"
+  },
+  "scripts": {
+    "test": "mocha $(find tests -name '*Test.js') ./tests",
+    "cover":"istanbul cover node_modules/.bin/_mocha  $(find tests -name '*Test.js') ./tests & open coverage/lcov-report/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pedroassis/node-dependency/tree/v2"
+  }
+}
