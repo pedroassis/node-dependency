@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<meta property="og:url" content="http://node-dependency.pedroassis.com.br">
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Classes in JavaScript &middot; Node-Dependency">
+
+<meta property="og:site_name" content="Node-Dependency">
+
+<title>
+    
+    Classes in JavaScript
+    
+</title>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//yandex.st/highlightjs/8.0/styles/github.min.css">
+<link rel="stylesheet" href="http://node-dependency.pedroassis.com.br/css/styles.css">
+<link rel="stylesheet" href="http://node-dependency.pedroassis.com.br/css/custom.css">
+
+
+<link rel="shortcut icon" href="http://node-dependency.pedroassis.com.br/assets/favicon.ico">
+
+
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://node-dependency.pedroassis.com.br/index.xml">
+
+
+<div class="container">
+    <header class="nav">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="http://node-dependency.pedroassis.com.br">Node-Dependency</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="http://node-dependency.pedroassis.com.br/post">All Posts</a></li>
+                        
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        
+                        
+                        
+                        <li>
+                            <a href="https://github.com/pedroassis/node-dependency" target="_blank">
+                                <i class="fa fa-github-square"></i>
+                                GitHub
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+<div class="row">
+    <div class="col-md-8">
+        <article class="post">
+
+            <header>
+                <div class="post-date">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    <time datetime="Sat, 4 Jul, 2015">
+                        Sat, 4 Jul, 2015
+                    </time>
+                </div>
+                <h1 class="post-title">
+                    <a href="http://node-dependency.pedroassis.com.br/post/Classes/">Classes in JavaScript</a>
+                </h1>
+            </header>
+
+            <div class="post-content">
+                
+
+<h4 id="i-see-a-lot-of-design-patterns-on-nodejs-most-of-then-i-don-t-like:20d1ea64521c4978f84dc5ec94fb9248">I see a lot of design patterns on NodeJS, most of then I don&rsquo;t like.</h4>
+
+<p>These NodeJS design patterns help us build fast applications using JavaScript, but they might lead to crappy code.</p>
+
+<p>Node-Dependency apps must follow some JS design patterns that I think are the easiest to learn for a programmer used to OOP.</p>
+
+<p>For instance:</p>
+
+<pre><code class="language-js">    // You can define Class-like functions with JS
+    function MyClass(){}
+
+    var myInstance = new MyClass();
+</code></pre>
+
+<p>This is pretty straight forward and anyone used to OOP will understand that.</p>
+
+<p>But is not a class as you&rsquo;ll get with Java or C# or whatever.</p>
+
+<pre><code class="language-js">    
+    function Person(name){ 
+        // The 'name' is receive in the constructor and is a private variable
+        // This is the constructor of your class
+        // You can define private and public properties
+
+        var lastName = ' is awesome!';  // Private variable
+        this.lastName = name + lastName; // this.lastName is a public variable
+
+        this.getFullName = function(){
+            return name + &quot; kind of&quot; + lastName;
+        };
+    }
+
+    var someone = new Person(&quot;Mary&quot;);
+
+    console.log(someone.lastName); // &quot;Mary is awesome!&quot;
+    console.log(someone.getFullName()); // &quot;Mary kind of is awesome!&quot;
+    console.log(someone.name); // undefined
+    console.log(someone.lastName); // &quot; is awesome!&quot;
+
+    someone.name = &quot;John&quot;;
+
+    console.log(someone.getFullName()); // &quot;Mary kind of is awesome!&quot;
+
+    // You can see that 'name' is a private variable,
+    // and you cant access it outside the Class scope.
+
+    // When changed 'name' to &quot;John&quot;, you haven't changed anything. 
+    // You accually created a new property in the same level as 'this.lastName'
+</code></pre>
+
+<p>This is pretty neat, right?</p>
+
+<p>Looking at Person class you might say that it has a dependency upon name.</p>
+
+<p>This is JS, so you are not required to provide the name upon object creation.</p>
+
+<pre><code class="language-js">    var someone = new Person();
+
+    console.log(someone.getFullName()); // &quot;undefined kind of is awesome!&quot;
+</code></pre>
+
+<p>Hnm!</p>
+
+            </div>
+
+            <aside>
+                
+                <ul class="list-inline post-tags">
+                    
+                    <li>
+                        <a href="http://node-dependency.pedroassis.com.br/tags/patterns">
+                            <i class="fa fa-tags"></i>
+                            Patterns
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="http://node-dependency.pedroassis.com.br/tags/javascript">
+                            <i class="fa fa-tags"></i>
+                            JavaScript
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="http://node-dependency.pedroassis.com.br/tags/object-oriented">
+                            <i class="fa fa-tags"></i>
+                            Object Oriented
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="http://node-dependency.pedroassis.com.br/tags/class-like">
+                            <i class="fa fa-tags"></i>
+                            Class-like
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="http://node-dependency.pedroassis.com.br/tags/di">
+                            <i class="fa fa-tags"></i>
+                            DI
+                        </a>
+                    </li>
+                    
+                </ul>
+
+                
+                
+                <h3>Related Post</h3>
+                <ul class="post-rels">
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="http://node-dependency.pedroassis.com.br/post/JS-Annotations/">JS and Annotations</a></li>
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+            </aside>
+            
+            
+            <footer>
+
+                <nav>
+                    <ul class="pager">
+
+                        
+                        <li class="previous"><a href="http://node-dependency.pedroassis.com.br/post/JS-Annotations/"><span aria-hidden="true">&larr;</span> Older</a></li>
+                        
+
+                        <li><a href="http://node-dependency.pedroassis.com.br/post">All Posts</a></li>
+
+                        
+                        <li class="next disabled"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
+                        
+
+                    </ul>
+                </nav>
+
+                
+                
+                
+                <div id="disqus_thread"></div>
+                <script type="text/javascript">
+ 
+var disqus_shortname = 'nodedependency'; 
+
+ 
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                
+                
+            </footer>
+
+        </article>
+    </div>
+    <div class="col-md-4">
+        
+<aside>
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-4 col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">Recent Posts</h2>
+                </div>
+                <div class="list-group">
+                    
+                    <a href="/post/JS-Annotations/" class="list-group-item">JS and Annotations</a>
+                    
+                    <a href="/post/Classes/" class="list-group-item">Classes in JavaScript</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-4 col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">Tags</h2>
+                </div>
+                <div class="list-group">
+                    
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/annotations" class="list-group-item">
+                        <span class="badge">1</span>
+                        annotations
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/class-like" class="list-group-item">
+                        <span class="badge">1</span>
+                        class-like
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/di" class="list-group-item">
+                        <span class="badge">1</span>
+                        di
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/es5" class="list-group-item">
+                        <span class="badge">1</span>
+                        es5
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/esprima" class="list-group-item">
+                        <span class="badge">1</span>
+                        esprima
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/javascript" class="list-group-item">
+                        <span class="badge">2</span>
+                        javascript
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/object-oriented" class="list-group-item">
+                        <span class="badge">1</span>
+                        object-oriented
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/patterns" class="list-group-item">
+                        <span class="badge">1</span>
+                        patterns
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/use-strict" class="list-group-item">
+                        <span class="badge">1</span>
+                        use-strict
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+</aside>
+
+    </div>
+</div>
+
+</div>
+<hr>
+
+<footer class="container copy">
+    <p>&copy; 2015  Pedro Assis </p>
+	<p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a></p>
+	<p>Theme <a href="https://github.com/dim0627/hugo_theme_hugostrap" target="_blank">Hugostrap</a> designed by <a href="http://yet.unresolved.xyz" target="_blank">Daisuke Tsuji</a>, Inspired from <a href="https://github.com/kAworu/octostrap3" target="_blank">Octostrap3</a></p>
+</footer>
+
+<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="//yandex.st/highlightjs/8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-64787564-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+<script>
+document.write('<script src="//sharebutton.net/plugin/sharebutton.php?type=horizontal&u=' + encodeURIComponent(document.location.href) + '"></scr' + 'ipt>');
+</script>
+

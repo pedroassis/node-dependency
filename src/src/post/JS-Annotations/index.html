@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<meta property="og:url" content="http://node-dependency.pedroassis.com.br">
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS and Annotations &middot; Node-Dependency">
+
+<meta property="og:site_name" content="Node-Dependency">
+
+<title>
+    
+    JS and Annotations
+    
+</title>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//yandex.st/highlightjs/8.0/styles/github.min.css">
+<link rel="stylesheet" href="http://node-dependency.pedroassis.com.br/css/styles.css">
+<link rel="stylesheet" href="http://node-dependency.pedroassis.com.br/css/custom.css">
+
+
+<link rel="shortcut icon" href="http://node-dependency.pedroassis.com.br/assets/favicon.ico">
+
+
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://node-dependency.pedroassis.com.br/index.xml">
+
+
+<div class="container">
+    <header class="nav">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="http://node-dependency.pedroassis.com.br">Node-Dependency</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="http://node-dependency.pedroassis.com.br/post">All Posts</a></li>
+                        
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        
+                        
+                        
+                        <li>
+                            <a href="https://github.com/pedroassis/node-dependency" target="_blank">
+                                <i class="fa fa-github-square"></i>
+                                GitHub
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+<div class="row">
+    <div class="col-md-8">
+        <article class="post">
+
+            <header>
+                <div class="post-date">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    <time datetime="Sat, 4 Jul, 2015">
+                        Sat, 4 Jul, 2015
+                    </time>
+                </div>
+                <h1 class="post-title">
+                    <a href="http://node-dependency.pedroassis.com.br/post/JS-Annotations/">JS and Annotations</a>
+                </h1>
+            </header>
+
+            <div class="post-content">
+                
+
+<p>Since ECMAScript 5 specification it was introduced the &lsquo;use strict&rsquo; directive, which is used to declared that the code inside the scope of the &lsquo;use strict&rsquo; should use a subset of the JavaScript language.</p>
+
+<hr />
+
+<p>It means that the same code should run different of the same code without it, for instance, you can&rsquo;t declare a global variable in the following way:</p>
+
+<pre><code class="language-js">    someNumber = 123;
+</code></pre>
+
+<p>The code above will run in any browser, declaring <code>someNumber</code> in the global scope because of the missing <code>var</code>.</p>
+
+<hr />
+
+<pre><code class="language-js">    'use strict';
+    someNumber = 123; // ReferenceError: someNumber is not defined
+</code></pre>
+
+<p>The second snippet runs in strict mode and will throw a error on browsers ES5 compatible, because of using a variable that was not defined.</p>
+
+<p>And the same code will run without any problems in all browsers that do not support the ES5 especification.</p>
+
+<p>Recently ASM started using a annotation <code>use asm</code> to define that a code should be run as a fast subset of JS (Pretty fast accually).</p>
+
+<hr />
+
+<h3 id="time-to-use-it-too:d7338891ff065b1ca5fd0fae23813d48">Time to use it too!</h3>
+
+<p>So we already know that annotations exists in JS, they look like code, in fact they are a <code>Literal Expression</code>, but they just get vaccued into the void, not meaning anything to normal JS code.</p>
+
+<h4 id="how-can-we-use-it:d7338891ff065b1ca5fd0fae23813d48">How can we use it?</h4>
+
+<p>Pretty good question, JS does not provide a simple way of using it.
+I was going to suggest writing a parser to read the code and detect those annotations.<br />
+JS is such a powerful language that you can accually do it.</p>
+
+<p>But this would take a little bit of time, and reading annotations is not what we need right now, we need to use it.</p>
+
+<p>Then I&rsquo;ve found there are a lot of JS parsers out there and I chose <a href="http://esprima.org">Esprima</a> to the job.</p>
+
+<p>Esprima is pretty cool, it reads your JS code and returns a Node Tree with the parsed code.</p>
+
+<p>Let&rsquo;s read the following function and see what we get.</p>
+
+<pre><code class="language-js">function Person(name){};
+JSON.stringify(esprima.parse('function Person(name){}'), null, 4) 
+// Or JSON.stringify(esprima.parse(Person.toString()), null, 4) 
+{
+    &quot;type&quot;: &quot;Program&quot;,
+    &quot;body&quot;: [
+        {
+            &quot;type&quot;: &quot;FunctionDeclaration&quot;,
+            &quot;id&quot;: {
+                &quot;type&quot;: &quot;Identifier&quot;,
+                &quot;name&quot;: &quot;Person&quot;
+            },
+            &quot;params&quot;: [
+                {
+                    &quot;type&quot;: &quot;Identifier&quot;,
+                    &quot;name&quot;: &quot;name&quot;
+                }
+            ],
+            &quot;defaults&quot;: [],
+            &quot;body&quot;: {
+                &quot;type&quot;: &quot;BlockStatement&quot;,
+                &quot;body&quot;: []
+            },
+            &quot;generator&quot;: false,
+            &quot;expression&quot;: false
+        }
+    ]
+}
+</code></pre>
+
+<p>Esprima read a bunch of data out of the function.</p>
+
+<p>It has identified that this is a <code>FunctionDeclaration</code>, with name <code>Person</code> and a parameter called <code>name</code>.<br />
+And also the <code>body</code> of the function, which is empty.</p>
+
+<p>That&rsquo;s cool! How about this:</p>
+
+<pre><code class="language-js">
+var code = &quot;'use strict'&quot; +
+           &quot;\n&quot; +
+           &quot;function Person(name){}&quot;;
+
+JSON.stringify(esprima.parse(code), null, 4)
+{
+    &quot;type&quot;: &quot;Program&quot;,
+    &quot;body&quot;: [
+        {
+            &quot;type&quot;: &quot;ExpressionStatement&quot;,
+            &quot;expression&quot;: {
+                &quot;type&quot;: &quot;Literal&quot;,
+                &quot;value&quot;: &quot;use strict&quot;,
+                &quot;raw&quot;: &quot;\&quot;use strict\&quot;&quot;
+            }
+        },
+        {
+            &quot;type&quot;: &quot;FunctionDeclaration&quot;,
+            &quot;id&quot;: {
+                &quot;type&quot;: &quot;Identifier&quot;,
+                &quot;name&quot;: &quot;Person&quot;
+            }
+            ...
+        }
+    ]
+}
+
+</code></pre>
+
+<p>Now we can read the annotations from the source code, we can see in the JSON that we have a <code>use strict</code> before our function.</p>
+
+<p>This is how we extract annotations from JS files on <a href="https://github.com/pedroassis/js-annotation-reader">js-annotation-reader</a>, which is the module used by <a href="https://github.com/pedroassis/node-dependency">node-dependency</a> to enable annotation support.</p>
+
+<p>Using this technique I wrote js-annotation-reader, and using it you can read a file like this:</p>
+
+<pre><code class="language-js">'package com.pedro'
+
+'@RequestHandler(&quot;/user&quot;)'
+function UserHandler () {
+    
+    '@Get(&quot;/all&quot;)'
+    this.fetchAll = function() {
+        return [{
+            name : 'USER!'
+        }, {
+            anotherOne : 1234567
+        }];
+    };
+    
+    '@Get(&quot;/id/:id&quot;)'
+    this.getByID = function($id) {
+        return {
+            userID : $id,
+            name : &quot;aSDFGHJKL&quot;
+        };
+    };
+
+}
+</code></pre>
+
+<h5 id="and-we-get-this-result:d7338891ff065b1ca5fd0fae23813d48">And we get this result:</h5>
+
+<pre><code class="language-js">{
+    &quot;name&quot;: &quot;UserHandler&quot;,
+    &quot;packaged&quot;: &quot;com.pedro&quot;,
+    &quot;parameters&quot;: [],
+    &quot;annotations&quot;: [
+        {
+            &quot;name&quot;: &quot;RequestHandler&quot;,
+            &quot;value&quot;: &quot;/user&quot;,
+            &quot;targets&quot;: &quot;UserHandler&quot;
+        }
+    ],
+    &quot;imports&quot;: [],
+    &quot;methods&quot;: [
+        {
+            &quot;annotations&quot;: [
+                {
+                    &quot;name&quot;: &quot;Get&quot;,
+                    &quot;value&quot;: &quot;/all&quot;,
+                    &quot;targets&quot;: &quot;fetchAll&quot;
+                }
+            ],
+            &quot;parameters&quot;: [],
+            &quot;name&quot;: &quot;fetchAll&quot;
+        },
+        {
+            &quot;annotations&quot;: [
+                {
+                    &quot;name&quot;: &quot;Get&quot;,
+                    &quot;value&quot;: &quot;/id/:id&quot;,
+                    &quot;targets&quot;: &quot;getByID&quot;
+                }
+            ],
+            &quot;parameters&quot;: [
+                &quot;$id&quot;
+            ],
+            &quot;name&quot;: &quot;getByID&quot;
+        }
+    ]
+}
+</code></pre>
+
+<p>If you are wondering in what this can be used, just check this out <a href="https://github.com/pedroassis/nd-express-plugin">Express Plugin</a></p>
+
+<p>References:</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#Making_eval_and_arguments_simpler">Mozilla&rsquo;s MDN</a></p>
+
+<p><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-directive-prologues-and-the-use-strict-directive">ECMAScript 5</a></p>
+
+<p><a href="http://asmjs.org/spec/latest/">ASM.js</a></p>
+
+            </div>
+
+            <aside>
+                
+                <ul class="list-inline post-tags">
+                    
+                    <li>
+                        <a href="http://node-dependency.pedroassis.com.br/tags/javascript">
+                            <i class="fa fa-tags"></i>
+                            JavaScript
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="http://node-dependency.pedroassis.com.br/tags/use-strict">
+                            <i class="fa fa-tags"></i>
+                            use strict
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="http://node-dependency.pedroassis.com.br/tags/annotations">
+                            <i class="fa fa-tags"></i>
+                            annotations
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="http://node-dependency.pedroassis.com.br/tags/es5">
+                            <i class="fa fa-tags"></i>
+                            ES5
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="http://node-dependency.pedroassis.com.br/tags/esprima">
+                            <i class="fa fa-tags"></i>
+                            esprima
+                        </a>
+                    </li>
+                    
+                </ul>
+
+                
+                
+                <h3>Related Post</h3>
+                <ul class="post-rels">
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="http://node-dependency.pedroassis.com.br/post/Classes/">Classes in JavaScript</a></li>
+                    
+                    
+                </ul>
+            </aside>
+            
+            
+            <footer>
+
+                <nav>
+                    <ul class="pager">
+
+                        
+                        <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
+                        
+
+                        <li><a href="http://node-dependency.pedroassis.com.br/post">All Posts</a></li>
+
+                        
+                        <li class="next"><a href="http://node-dependency.pedroassis.com.br/post/Classes/">Newer <span aria-hidden="true">&rarr;</span></a></li>
+                        
+
+                    </ul>
+                </nav>
+
+                
+                
+                
+                <div id="disqus_thread"></div>
+                <script type="text/javascript">
+ 
+var disqus_shortname = 'nodedependency'; 
+
+ 
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                
+                
+            </footer>
+
+        </article>
+    </div>
+    <div class="col-md-4">
+        
+<aside>
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-4 col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">Recent Posts</h2>
+                </div>
+                <div class="list-group">
+                    
+                    <a href="/post/JS-Annotations/" class="list-group-item">JS and Annotations</a>
+                    
+                    <a href="/post/Classes/" class="list-group-item">Classes in JavaScript</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-4 col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">Tags</h2>
+                </div>
+                <div class="list-group">
+                    
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/annotations" class="list-group-item">
+                        <span class="badge">1</span>
+                        annotations
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/class-like" class="list-group-item">
+                        <span class="badge">1</span>
+                        class-like
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/di" class="list-group-item">
+                        <span class="badge">1</span>
+                        di
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/es5" class="list-group-item">
+                        <span class="badge">1</span>
+                        es5
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/esprima" class="list-group-item">
+                        <span class="badge">1</span>
+                        esprima
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/javascript" class="list-group-item">
+                        <span class="badge">2</span>
+                        javascript
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/object-oriented" class="list-group-item">
+                        <span class="badge">1</span>
+                        object-oriented
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/patterns" class="list-group-item">
+                        <span class="badge">1</span>
+                        patterns
+                    </a>
+                    
+                    
+                    <a href="http://node-dependency.pedroassis.com.br/tags/use-strict" class="list-group-item">
+                        <span class="badge">1</span>
+                        use-strict
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+</aside>
+
+    </div>
+</div>
+
+</div>
+<hr>
+
+<footer class="container copy">
+    <p>&copy; 2015  Pedro Assis </p>
+	<p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a></p>
+	<p>Theme <a href="https://github.com/dim0627/hugo_theme_hugostrap" target="_blank">Hugostrap</a> designed by <a href="http://yet.unresolved.xyz" target="_blank">Daisuke Tsuji</a>, Inspired from <a href="https://github.com/kAworu/octostrap3" target="_blank">Octostrap3</a></p>
+</footer>
+
+<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="//yandex.st/highlightjs/8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-64787564-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+<script>
+document.write('<script src="//sharebutton.net/plugin/sharebutton.php?type=horizontal&u=' + encodeURIComponent(document.location.href) + '"></scr' + 'ipt>');
+</script>
+
