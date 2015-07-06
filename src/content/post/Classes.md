@@ -56,8 +56,8 @@ But is not a class as you'll get with Java or C# or whatever.
     // When changed 'name' to "John", you haven't changed anything. 
     // You accually created a new property in the same level as 'this.lastName'
 ```
-
-This is pretty neat, right?
+ 
+> Everything defined on 'this' will be public, declarations using 'var' will be private
 
 Looking at Person class you might say that it has a dependency upon name.
 
@@ -69,8 +69,45 @@ This is JS, so you are not required to provide the name upon object creation.
     console.log(someone.getFullName()); // "undefined kind of is awesome!"
 ```
 
-Hnm!
+
+You can have Classes depending upon other classes:
+
+```js
+    function PersonService(){
+
+        var person = new Person();
+
+        this.getName = function(){
+            return person.getFullName();
+        }
+
+        this.getPerson = function(){
+            return person;
+        }
+
+    }
+
+    var personService = new PersonService();
+```
+
+In this case `PersonService` breaks the [Dependency inversion principle](https://en.wikipedia.org/wiki/Dependency_inversion_principle) because it should depend upon the abstraction of `Person`, not the implemented class.  
+You might say `PersonService` is coupled with the implementation of `Person`, but thats not true on JS.  
+JS is a dynamic language, therefore is hard to have anything coupled to anything. Unless `Person` were defined inside `PersonService`, but in this case at most is coupled to the signature `Person`.  
+
+Some OOP principles should be applied differently on JS, for instance:
+
+```js
+    new PersonService().getPerson().constructor.name; // "Person"
+
+    Person = function Employee(){}; // Changed what Person means
+
+    new PersonService().getPerson().constructor.name; // "Employee"
+```
 
 
+This approach works, but is too hacky.  
 
+If `PersonService` received the `Person` instance in the constructor we could provide any type of object to it.  
+
+Node-Dependency solves this kind of porblem, you define your dependencies in the constructor and the framework will handle the instantiation process.  
 

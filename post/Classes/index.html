@@ -156,7 +156,9 @@
     // You accually created a new property in the same level as 'this.lastName'
 </code></pre>
 
-<p>This is pretty neat, right?</p>
+<blockquote>
+<p>Everything defined on &lsquo;this&rsquo; will be public, declarations using &lsquo;var&rsquo; will be private</p>
+</blockquote>
 
 <p>Looking at Person class you might say that it has a dependency upon name.</p>
 
@@ -167,7 +169,43 @@
     console.log(someone.getFullName()); // &quot;undefined kind of is awesome!&quot;
 </code></pre>
 
-<p>Hnm!</p>
+<p>You can have Classes depending upon other classes:</p>
+
+<pre><code class="language-js">    function PersonService(){
+
+        var person = new Person();
+
+        this.getName = function(){
+            return person.getFullName();
+        }
+
+        this.getPerson = function(){
+            return person;
+        }
+
+    }
+
+    var personService = new PersonService();
+</code></pre>
+
+<p>In this case <code>PersonService</code> breaks the <a href="https://en.wikipedia.org/wiki/Dependency_inversion_principle">Dependency inversion principle</a> because it should depend upon the abstraction of <code>Person</code>, not the implemented class.<br />
+You might say <code>PersonService</code> is coupled with the implementation of <code>Person</code>, but thats not true on JS.<br />
+JS is a dynamic language, therefore is hard to have anything coupled to anything. Unless <code>Person</code> were defined inside <code>PersonService</code>, but in this case at most is coupled to the signature <code>Person</code>.</p>
+
+<p>Some OOP principles should be applied differently on JS, for instance:</p>
+
+<pre><code class="language-js">    new PersonService().getPerson().constructor.name; // &quot;Person&quot;
+
+    Person = function Employee(){}; // Changed what Person means
+
+    new PersonService().getPerson().constructor.name; // &quot;Employee&quot;
+</code></pre>
+
+<p>This approach works, but is too hacky.</p>
+
+<p>If <code>PersonService</code> received the <code>Person</code> instance in the constructor we could provide any type of object to it.</p>
+
+<p>Node-Dependency solves this kind of porblem, you define your dependencies in the constructor and the framework will handle the instantiation process.</p>
 
             </div>
             
@@ -273,6 +311,16 @@
       $(".desktop").removeAttr("style");
     }
   });
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-64787564-1', 'auto');
+  ga('send', 'pageview');
 </script>
 
 </body>

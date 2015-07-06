@@ -69,7 +69,9 @@
     // You accually created a new property in the same level as &#39;this.lastName&#39;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;This is pretty neat, right?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Everything defined on &amp;lsquo;this&amp;rsquo; will be public, declarations using &amp;lsquo;var&amp;rsquo; will be private&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;Looking at Person class you might say that it has a dependency upon name.&lt;/p&gt;
 
@@ -80,7 +82,43 @@
     console.log(someone.getFullName()); // &amp;quot;undefined kind of is awesome!&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Hnm!&lt;/p&gt;
+&lt;p&gt;You can have Classes depending upon other classes:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;    function PersonService(){
+
+        var person = new Person();
+
+        this.getName = function(){
+            return person.getFullName();
+        }
+
+        this.getPerson = function(){
+            return person;
+        }
+
+    }
+
+    var personService = new PersonService();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In this case &lt;code&gt;PersonService&lt;/code&gt; breaks the &lt;a href=&#34;https://en.wikipedia.org/wiki/Dependency_inversion_principle&#34;&gt;Dependency inversion principle&lt;/a&gt; because it should depend upon the abstraction of &lt;code&gt;Person&lt;/code&gt;, not the implemented class.&lt;br /&gt;
+You might say &lt;code&gt;PersonService&lt;/code&gt; is coupled with the implementation of &lt;code&gt;Person&lt;/code&gt;, but thats not true on JS.&lt;br /&gt;
+JS is a dynamic language, therefore is hard to have anything coupled to anything. Unless &lt;code&gt;Person&lt;/code&gt; were defined inside &lt;code&gt;PersonService&lt;/code&gt;, but in this case at most is coupled to the signature &lt;code&gt;Person&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Some OOP principles should be applied differently on JS, for instance:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;    new PersonService().getPerson().constructor.name; // &amp;quot;Person&amp;quot;
+
+    Person = function Employee(){}; // Changed what Person means
+
+    new PersonService().getPerson().constructor.name; // &amp;quot;Employee&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This approach works, but is too hacky.&lt;/p&gt;
+
+&lt;p&gt;If &lt;code&gt;PersonService&lt;/code&gt; received the &lt;code&gt;Person&lt;/code&gt; instance in the constructor we could provide any type of object to it.&lt;/p&gt;
+
+&lt;p&gt;Node-Dependency solves this kind of porblem, you define your dependencies in the constructor and the framework will handle the instantiation process.&lt;/p&gt;
 </description>
     </item>
     
