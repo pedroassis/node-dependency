@@ -4,13 +4,20 @@ Title: "Node-Dependency"
 Theme: "nofancy"
 disqusShortname: "nodedependency"
 
+Author:
+  name: "Pedro Assis"
+  github: "pedroassis/node-dependency"
+  linkedin : "https://br.linkedin.com/in/pedroassisbh"
+  email : "pedro@pedroassis.com.br"
+  facebook : "https://www.facebook.com/profile.php?id=100005981446817"
+
 Params:
   Author: "Pedro Assis"
   DateForm: "Mon, 2 Jan, 2006"
   GoogleAnalyticsUserID: "UA-64787564-1"
   Github: "pedroassis/node-dependency"
   ShowRelatedPost: True
-  Disqus: "nodedependency"
+  disqusShortname: "nodedependency"
   SyntaxHighlightTheme: "github.min.css"
   highlight : "monokai_sublime"
 

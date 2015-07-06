@@ -6,6 +6,8 @@
     <description>Recent content in Posts on Node-Dependency</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <managingEditor>pedro@pedroassis.com.br (Pedro Assis)</managingEditor>
+    <webMaster>pedro@pedroassis.com.br (Pedro Assis)</webMaster>
     <lastBuildDate>Sat, 04 Jul 2015 21:55:18 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
     
@@ -13,7 +15,7 @@
       <title>JS and Annotations</title>
       <link>http://localhost:1313/post/JS-Annotations/</link>
       <pubDate>Sat, 04 Jul 2015 21:55:18 -0300</pubDate>
-      
+      <author>pedro@pedroassis.com.br (Pedro Assis)</author>
       <guid>http://localhost:1313/post/JS-Annotations/</guid>
       <description>
 
@@ -217,7 +219,7 @@ function UserHandler () {
       <title>Classes in JavaScript</title>
       <link>http://localhost:1313/post/Classes/</link>
       <pubDate>Sat, 04 Jul 2015 12:14:38 -0300</pubDate>
-      
+      <author>pedro@pedroassis.com.br (Pedro Assis)</author>
       <guid>http://localhost:1313/post/Classes/</guid>
       <description>
 

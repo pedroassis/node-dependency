@@ -146,7 +146,6 @@ body {
 	z-index:9;
 	overflow:auto;
 	padding:0;
-	padding-bottom:3em;
 	font-size:16px;
 	line-height:1.4;
 }
@@ -231,4 +230,25 @@ body {
 	.desktop {
 		display: block;
 	}
+}
+
+.share-title{
+  display: table-cell;
+  vertical-align: middle;
+  padding-right: 5px;
+}
+
+.share-img{
+	width: 20px;
+}
+
+.share-container{
+	  width: 100%;
+  height: 27px;
+}
+
+.share-inner{
+  margin: 0;
+  display: table;
+  float: right;
 }
