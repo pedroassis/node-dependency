@@ -12,6 +12,7 @@ Params:
   ShowRelatedPost: True
   Disqus: "nodedependency"
   SyntaxHighlightTheme: "github.min.css"
+  highlight : "monokai_sublime"
 
 Indexes:
   tag: "tags"

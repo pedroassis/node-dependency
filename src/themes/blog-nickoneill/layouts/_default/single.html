@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>{{ .Title }}</title>
+
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link rel="canonical" href="{{ .Permalink }}">
+	<link href="{{ .RSSlink }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
+
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+{{ template "theme/modules/header.html" }}
+
+<div id="content" class="inner">
+
+<article class="post">
+	<h2 class="title">{{ .Title }}</h2>
+	<div class="entry-content">{{ .Content }}</div>
+	{{ template "theme/modules/meta.html" . }}
+</article>
+
+<div class="nextprev clearfix">
+	{{ if .Prev }}
+	<div class="prev">
+		<p>Next up:</p>
+		<h3><a href="{{ .Prev.Permalink }}">{{ .Prev.Title }}</a></h3>
+		{{ if .Prev.Description }}
+		<p>{{ .Prev.Description }}</p>
+		{{ end }}
+	</div>
+	{{ end }}
+	{{ if .Next }}
+	<div class="next">
+		<p>Previously:</p>
+		<h3><a href="{{ .Next.Permalink }}">{{ .Next.Title }}</a></h3>
+		{{ if .Next.Description }}
+		<p>{{ .Next.Description }}</p>
+		{{ end }}
+	</div>
+	{{ end }}
+</div>
+
+</div>
+
+{{ template "theme/modules/footer.html" }}

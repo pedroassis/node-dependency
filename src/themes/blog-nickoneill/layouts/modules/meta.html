@@ -1,0 +1,6 @@
+<div class="meta">
+	<div class="date">{{ .Date.Format "Mon, Jan 2, 2006" }}</div>
+	<div class="tags">{{ range .Params.tags }}
+		<a href="/tags/{{ . | urlize }}">{{ . }}</a>
+	{{ end }}</div>
+</div>
