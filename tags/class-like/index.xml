@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Node-Dependency </title>
+    <title>Class Like on Node-Dependency</title>
     <link>http://node-dependency.pedroassis.com.br/tags/class-like/</link>
+    <description>Recent content in Class Like on Node-Dependency</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <author>Pedro Assis</author>
-    <rights>(C) 2015</rights>
-    <updated>2015-07-04 12:14:38 -0300 BRT</updated>
-
+    <lastBuildDate>Sat, 04 Jul 2015 12:14:38 -0300</lastBuildDate>
+    <atom:link href="http://node-dependency.pedroassis.com.br/tags/class-like/index.xml" rel="self" type="application/rss+xml" />
     
+    <item>
+      <title>Classes in JavaScript</title>
+      <link>http://node-dependency.pedroassis.com.br/post/Classes/</link>
+      <pubDate>Sat, 04 Jul 2015 12:14:38 -0300</pubDate>
       
-        <item>
-          <title>Classes in JavaScript</title>
-          <link>http://node-dependency.pedroassis.com.br/post/Classes/</link>
-          <pubDate>Sat, 04 Jul 2015 12:14:38 BRT</pubDate>
-          <author>Pedro Assis</author>
-          <guid>http://node-dependency.pedroassis.com.br/post/Classes/</guid>
-          <description>
+      <guid>http://node-dependency.pedroassis.com.br/post/Classes/</guid>
+      <description>
 
 &lt;h4 id=&#34;i-see-a-lot-of-design-patterns-on-nodejs-most-of-then-i-don-t-like:20d1ea64521c4978f84dc5ec94fb9248&#34;&gt;I see a lot of design patterns on NodeJS, most of then I don&amp;rsquo;t like.&lt;/h4&gt;
 
@@ -81,9 +80,7 @@
 
 &lt;p&gt;Hnm!&lt;/p&gt;
 </description>
-        </item>
-      
+    </item>
     
-
   </channel>
 </rss>
