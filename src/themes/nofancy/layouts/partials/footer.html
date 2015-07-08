@@ -43,6 +43,7 @@
 </div>
 
 
+<script src="{{ .Site.BaseUrl }}js/aes.js" type="text/javascript"></script>
 <script src="{{ .Site.BaseUrl }}js/jquery.min.js" type="text/javascript"></script>
 <script src="{{ .Site.BaseUrl }}js/jquery.timeago.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -70,7 +71,12 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', '{{ .Site.Author.gaID }}', 'auto');
+  var upYourSpammerID = '{{ .Site.Author.gaID }}';
+  var upYourSpammerKey = '{{ .Site.Author.gaKey }}';
+
+  var ownedYou = CryptoJS.AES.decrypt(upYourSpammerID, upYourSpammerKey).toString(CryptoJS.enc.Utf8);
+
+  ga('create', ownedYou, 'auto');
   ga('send', 'pageview');
 </script>
 {{ end }}
