@@ -1,7 +1,7 @@
 node-dependency - Node Dependency Injection (Beta)
 ===============
 
-[View Site](http://node-dependency.pedroassis.com.br/)  
+The framework [site](http://node-dependency.pedroassis.com.br/) has some cool posts about JS and node-dependency.  
 
 Autowiring dependencies to you JS files. Without hard-to-write configuration files.  
 You can cnfigure your files using annotations, yes annotatons. See [JS Annotations](https://github.com/pedroassis/js-annotation-reader).  
