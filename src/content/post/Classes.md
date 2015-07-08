@@ -109,5 +109,5 @@ This approach works, but is too hacky.
 
 If `PersonService` received the `Person` instance in the constructor we could provide any type of object to it.  
 
-Node-Dependency solves this kind of porblem, you define your dependencies in the constructor and the framework will handle the instantiation process.  
+Node-Dependency solves this kind of problem, you define your dependencies in the constructor and the framework will handle the instantiation process.  
 

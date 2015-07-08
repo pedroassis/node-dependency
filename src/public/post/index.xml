@@ -8,8 +8,190 @@
     <language>en-us</language>
     <managingEditor>pedro@pedroassis.com.br (Pedro Assis)</managingEditor>
     <webMaster>pedro@pedroassis.com.br (Pedro Assis)</webMaster>
-    <lastBuildDate>Sat, 04 Jul 2015 21:55:18 -0300</lastBuildDate>
+    <lastBuildDate>Tue, 07 Jul 2015 20:20:09 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Getting Started</title>
+      <link>http://localhost:1313/post/getting-started/</link>
+      <pubDate>Tue, 07 Jul 2015 20:20:09 -0300</pubDate>
+      <author>pedro@pedroassis.com.br (Pedro Assis)</author>
+      <guid>http://localhost:1313/post/getting-started/</guid>
+      <description>
+
+&lt;h2 id=&#34;installing:b6885e1f85551f51a4707c402f8200a3&#34;&gt;Installing&lt;/h2&gt;
+
+&lt;p&gt;I suppose you have a NodeJs project and you know what&amp;rsquo;s &lt;code&gt;npm&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;    npm install node-dependency --save
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;the-source-folder:b6885e1f85551f51a4707c402f8200a3&#34;&gt;The source folder&lt;/h5&gt;
+
+&lt;p&gt;Your source files must be in your root folder inside another folder, the default name is &lt;code&gt;src&lt;/code&gt; but you can changed that. If you do change it you need to add it to your &lt;strong&gt;package.json&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h6 id=&#34;package-json:b6885e1f85551f51a4707c402f8200a3&#34;&gt;package.json&lt;/h6&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;{
+    ... /// npm stuff, like dependencies, name, version...
+    &amp;quot;node-dependency&amp;quot; : {
+        &amp;quot;source&amp;quot; : &amp;quot;newName&amp;quot; // defaults to &amp;quot;src&amp;quot;
+    }
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now you should create a &lt;strong&gt;index.js&lt;/strong&gt; file in your root folder, and &lt;code&gt;require&lt;/code&gt; node-dependency module.&lt;/p&gt;
+
+&lt;h6 id=&#34;index-js:b6885e1f85551f51a4707c402f8200a3&#34;&gt;index.js&lt;/h6&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;    
+// You should require node-dependency
+var statupMethod = require(&#39;node-dependency&#39;);
+
+/* 
+ *  The returned value is a function which take 1 parameters: rootFolder
+ *  After that node-dependency will read your source folder and load all your classes
+ *  and instantiate the class named ProjectBootstrap, this file can be anywhere inside
+ *  your source folder
+ */
+statupMethod(__dirname);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h6 id=&#34;file-structure:b6885e1f85551f51a4707c402f8200a3&#34;&gt;File Structure:&lt;/h6&gt;
+
+&lt;pre&gt;&lt;code&gt;root_folder/
+|-- index.js
+|-- package.json
+|-- src/                            # Your Source Folder
+|   |-- ProjectBootstrap.js         # Startup class
+|   ...                             # Your other files
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now you add the Startup class: &lt;strong&gt;`ProjectBootsrap.js&lt;/strong&gt;
+&lt;code&gt;ProjectBootsrap&lt;/code&gt; can be placed anywhere in your source folder. And you should start your app in there.&lt;/p&gt;
+
+&lt;h6 id=&#34;projectbootsrap-js:b6885e1f85551f51a4707c402f8200a3&#34;&gt;ProjectBootsrap.js&lt;/h6&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function ProjectBootstrap (MyDependency, AnotherOne) {
+    myDependency.start(); // You sould keep this file as simple as you can, don&#39;t abuse it
+
+    anotherOne.configure(); // configure and start are just madeup names
+}
+
+module.exports = ProjectBootstrap;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Your &lt;code&gt;ProjectBootstrap&lt;/code&gt; depends on &lt;code&gt;MyDependency, AnotherOne&lt;/code&gt;. Now you should create then as well.&lt;/p&gt;
+
+&lt;p&gt;They can be anywhere inside your source folder, for instance, inside another folders.&lt;/p&gt;
+
+&lt;h6 id=&#34;mydependency-js:b6885e1f85551f51a4707c402f8200a3&#34;&gt;MyDependency.js&lt;/h6&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function MyDependency () {
+
+    this.start = function(){
+        // Do your stuff here
+        console.log(&amp;quot;I have been started!&amp;quot;)
+    };
+}
+
+module.exports = MyDependency;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h6 id=&#34;anotherone-js:b6885e1f85551f51a4707c402f8200a3&#34;&gt;AnotherOne.js&lt;/h6&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function AnotherOne () {
+
+    this.configure = function(){
+        // Do your stuff here
+        console.log(&amp;quot;I have been configured!&amp;quot;)
+    };
+}
+
+module.exports = AnotherOne;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That&amp;rsquo;s it, you already have a app up and running.&lt;/p&gt;
+
+&lt;p&gt;You probably want to use your dependencies modules from &lt;code&gt;npm&lt;/code&gt;. That&amp;rsquo;s ok, node-dependency inject them too.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s install &lt;code&gt;expressjs&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;npm install express --save
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Attention: You must have your module dependencies written on your &lt;strong&gt;package.json&lt;/strong&gt;&amp;rsquo;s &lt;code&gt;dependencies&lt;/code&gt; field&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Let&amp;rsquo;s rewrite &lt;code&gt;MyDependency&lt;/code&gt; to use &lt;code&gt;express&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h6 id=&#34;mydependency-js-1:b6885e1f85551f51a4707c402f8200a3&#34;&gt;MyDependency.js&lt;/h6&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function MyDependency (express) { // You just need to do this
+
+    var app = express();
+
+    this.start = function(){
+
+        app.get(&#39;/&#39;, function (req, res) {
+            res.send(&#39;Hello World!&#39;);
+        });
+
+        var server = app.listen(3000, function () {
+            var host = server.address().address;
+            var port = server.address().port;
+
+            console.log(&#39;Example app listening at http://%s:%s&#39;, host, port);
+        });
+    };
+}
+
+module.exports = MyDependency;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now you will have a HTTP Server when you run your app.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>What&#39;s node-dependency?</title>
+      <link>http://localhost:1313/post/whats-that/</link>
+      <pubDate>Tue, 07 Jul 2015 18:44:49 -0300</pubDate>
+      <author>pedro@pedroassis.com.br (Pedro Assis)</author>
+      <guid>http://localhost:1313/post/whats-that/</guid>
+      <description>
+
+&lt;p&gt;It&amp;rsquo;s a Dependency Injection Framework for NodeJS.&lt;br /&gt;
+It discovers your files and declare them to be injected and to have it&amp;rsquo;s dependencies injected.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;No hard to write configuration files&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;dependency-injection-made-easy:bfeb15fc3ad40c5e48a5041c2632133e&#34;&gt;Dependency Injection made easy&lt;/h5&gt;
+
+&lt;p&gt;I&amp;rsquo;ve heard that NodeJS is based in somethin&amp;rsquo; called &lt;code&gt;Module Pattern&lt;/code&gt;, where you expose a module, which can be a Function, a Object or whatever.&lt;/p&gt;
+
+&lt;p&gt;Then you can &lt;code&gt;require&lt;/code&gt; then by name and use it as needed.&lt;/p&gt;
+
+&lt;p&gt;If you are (hopefully) starting a new NodeJS project, I highly recommend you to think in what kind of structure and what patterns you are going to use and most of all: &lt;strong&gt;Stick with them&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;node-dependency&lt;/strong&gt; helps you choose a well known pattern&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;If you choose to use node-dependency you&amp;rsquo;ll have to follow some guidelines, therefore having a uniform code.&lt;/p&gt;
+
+&lt;p&gt;Benefits:&lt;br /&gt;
+- Code easy to read and write&lt;br /&gt;
+- Uniform structure&lt;br /&gt;
+- Truly Object Oriented&lt;br /&gt;
+- Easy to pick-up&lt;br /&gt;
+- No strange patterns defined by the language community&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>JS and Annotations</title>
@@ -322,7 +504,7 @@ JS is a dynamic language, therefore is hard to have anything coupled to anything
 
 &lt;p&gt;If &lt;code&gt;PersonService&lt;/code&gt; received the &lt;code&gt;Person&lt;/code&gt; instance in the constructor we could provide any type of object to it.&lt;/p&gt;
 
-&lt;p&gt;Node-Dependency solves this kind of porblem, you define your dependencies in the constructor and the framework will handle the instantiation process.&lt;/p&gt;
+&lt;p&gt;Node-Dependency solves this kind of problem, you define your dependencies in the constructor and the framework will handle the instantiation process.&lt;/p&gt;
 </description>
     </item>
     

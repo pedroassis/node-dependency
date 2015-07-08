@@ -3,8 +3,8 @@
 
   
   <meta charset="utf-8">
-  <title>Classes in JavaScript</title>
-  <meta name="description" content="Classes in JavaScript">
+  <title>What&#39;s node-dependency?</title>
+  <meta name="description" content="What&#39;s node-dependency?">
   <meta name="author" content="Pedro Assis">
 
   
@@ -69,35 +69,35 @@
 
             <div class="post-title">
                 <p class="footnote">
-                    <time class="">2015-07-04</time>
+                    <time class="">2015-07-07</time>
 		            
                     
                     |
                     
                     
-                    tags:<a href="http://localhost:1313/tags/patterns">Patterns</a> <a href="http://localhost:1313/tags/javascript">JavaScript</a> <a href="http://localhost:1313/tags/object-oriented">Object Oriented</a> <a href="http://localhost:1313/tags/class-like">Class-like</a> <a href="http://localhost:1313/tags/di">DI</a> 
+                    tags:<a href="http://localhost:1313/tags/javascript">JavaScript</a> <a href="http://localhost:1313/tags/di">DI</a> <a href="http://localhost:1313/tags/node-dependency">node-dependency</a> <a href="http://localhost:1313/tags/nodejs">NodeJS</a> <a href="http://localhost:1313/tags/patterns">Patterns</a> 
                     
 
                     
 
                     
                 </p>
-                <h1>Classes in JavaScript</h1>
+                <h1>What&#39;s node-dependency?</h1>
             </div>
 
             <aside class="share-container">
     <p class="share-inner">
         <span class="share-title">Share: </span>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fpost%2fClasses%2f">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fpost%2fwhats-that%2f">
             <img src="/icons/facebook.png" class="share-img">
         </a>
-        <a href="https://twitter.com/home?status=http%3a%2f%2flocalhost%3a1313%2fpost%2fClasses%2f">
+        <a href="https://twitter.com/home?status=http%3a%2f%2flocalhost%3a1313%2fpost%2fwhats-that%2f">
             <img src="/icons/twitter.png" class="share-img">
         </a>
-        <a href="https://plus.google.com/share?url=http%3a%2f%2flocalhost%3a1313%2fpost%2fClasses%2f">
+        <a href="https://plus.google.com/share?url=http%3a%2f%2flocalhost%3a1313%2fpost%2fwhats-that%2f">
             <img src="/icons/g+.png" class="share-img">
         </a>
-        <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fpost%2fClasses%2f">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fpost%2fwhats-that%2f">
             <img src="/icons/linkedin.png" class="share-img">
         </a>
     </p>
@@ -106,122 +106,49 @@
             <div class="post-content">
                 
 
-<h4 id="i-see-a-lot-of-design-patterns-on-nodejs-most-of-then-i-don-t-like:20d1ea64521c4978f84dc5ec94fb9248">I see a lot of design patterns on NodeJS, most of then I don&rsquo;t like.</h4>
-
-<p>These NodeJS design patterns help us build fast applications using JavaScript, but they might lead to crappy code.</p>
-
-<p>Node-Dependency apps must follow some JS design patterns that I think are the easiest to learn for a programmer used to OOP.</p>
-
-<p>For instance:</p>
-
-<pre><code class="language-js">    // You can define Class-like functions with JS
-    function MyClass(){}
-
-    var myInstance = new MyClass();
-</code></pre>
-
-<p>This is pretty straight forward and anyone used to OOP will understand that.</p>
-
-<p>But is not a class as you&rsquo;ll get with Java or C# or whatever.</p>
-
-<pre><code class="language-js">    
-    function Person(name){ 
-        // The 'name' is receive in the constructor and is a private variable
-        // This is the constructor of your class
-        // You can define private and public properties
-
-        var lastName = ' is awesome!';  // Private variable
-        this.lastName = name + lastName; // this.lastName is a public variable
-
-        this.getFullName = function(){
-            return name + &quot; kind of&quot; + lastName;
-        };
-    }
-
-    var someone = new Person(&quot;Mary&quot;);
-
-    console.log(someone.lastName); // &quot;Mary is awesome!&quot;
-    console.log(someone.getFullName()); // &quot;Mary kind of is awesome!&quot;
-    console.log(someone.name); // undefined
-    console.log(someone.lastName); // &quot; is awesome!&quot;
-
-    someone.name = &quot;John&quot;;
-
-    console.log(someone.getFullName()); // &quot;Mary kind of is awesome!&quot;
-
-    // You can see that 'name' is a private variable,
-    // and you cant access it outside the Class scope.
-
-    // When changed 'name' to &quot;John&quot;, you haven't changed anything. 
-    // You accually created a new property in the same level as 'this.lastName'
-</code></pre>
+<p>It&rsquo;s a Dependency Injection Framework for NodeJS.<br />
+It discovers your files and declare them to be injected and to have it&rsquo;s dependencies injected.</p>
 
 <blockquote>
-<p>Everything defined on &lsquo;this&rsquo; will be public, declarations using &lsquo;var&rsquo; will be private</p>
+<p>No hard to write configuration files</p>
 </blockquote>
 
-<p>Looking at Person class you might say that it has a dependency upon name.</p>
+<h5 id="dependency-injection-made-easy:bfeb15fc3ad40c5e48a5041c2632133e">Dependency Injection made easy</h5>
 
-<p>This is JS, so you are not required to provide the name upon object creation.</p>
+<p>I&rsquo;ve heard that NodeJS is based in somethin&rsquo; called <code>Module Pattern</code>, where you expose a module, which can be a Function, a Object or whatever.</p>
 
-<pre><code class="language-js">    var someone = new Person();
+<p>Then you can <code>require</code> then by name and use it as needed.</p>
 
-    console.log(someone.getFullName()); // &quot;undefined kind of is awesome!&quot;
-</code></pre>
+<p>If you are (hopefully) starting a new NodeJS project, I highly recommend you to think in what kind of structure and what patterns you are going to use and most of all: <strong>Stick with them</strong>.</p>
 
-<p>You can have Classes depending upon other classes:</p>
+<blockquote>
+<p><strong>node-dependency</strong> helps you choose a well known pattern</p>
+</blockquote>
 
-<pre><code class="language-js">    function PersonService(){
+<p>If you choose to use node-dependency you&rsquo;ll have to follow some guidelines, therefore having a uniform code.</p>
 
-        var person = new Person();
-
-        this.getName = function(){
-            return person.getFullName();
-        }
-
-        this.getPerson = function(){
-            return person;
-        }
-
-    }
-
-    var personService = new PersonService();
-</code></pre>
-
-<p>In this case <code>PersonService</code> breaks the <a href="https://en.wikipedia.org/wiki/Dependency_inversion_principle">Dependency inversion principle</a> because it should depend upon the abstraction of <code>Person</code>, not the implemented class.<br />
-You might say <code>PersonService</code> is coupled with the implementation of <code>Person</code>, but thats not true on JS.<br />
-JS is a dynamic language, therefore is hard to have anything coupled to anything. Unless <code>Person</code> were defined inside <code>PersonService</code>, but in this case at most is coupled to the signature <code>Person</code>.</p>
-
-<p>Some OOP principles should be applied differently on JS, for instance:</p>
-
-<pre><code class="language-js">    new PersonService().getPerson().constructor.name; // &quot;Person&quot;
-
-    Person = function Employee(){}; // Changed what Person means
-
-    new PersonService().getPerson().constructor.name; // &quot;Employee&quot;
-</code></pre>
-
-<p>This approach works, but is too hacky.</p>
-
-<p>If <code>PersonService</code> received the <code>Person</code> instance in the constructor we could provide any type of object to it.</p>
-
-<p>Node-Dependency solves this kind of problem, you define your dependencies in the constructor and the framework will handle the instantiation process.</p>
+<p>Benefits:<br />
+- Code easy to read and write<br />
+- Uniform structure<br />
+- Truly Object Oriented<br />
+- Easy to pick-up<br />
+- No strange patterns defined by the language community</p>
 
             </div>
             
             <aside class="share-container">
     <p class="share-inner">
         <span class="share-title">Share: </span>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fpost%2fClasses%2f">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fpost%2fwhats-that%2f">
             <img src="/icons/facebook.png" class="share-img">
         </a>
-        <a href="https://twitter.com/home?status=http%3a%2f%2flocalhost%3a1313%2fpost%2fClasses%2f">
+        <a href="https://twitter.com/home?status=http%3a%2f%2flocalhost%3a1313%2fpost%2fwhats-that%2f">
             <img src="/icons/twitter.png" class="share-img">
         </a>
-        <a href="https://plus.google.com/share?url=http%3a%2f%2flocalhost%3a1313%2fpost%2fClasses%2f">
+        <a href="https://plus.google.com/share?url=http%3a%2f%2flocalhost%3a1313%2fpost%2fwhats-that%2f">
             <img src="/icons/g+.png" class="share-img">
         </a>
-        <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fpost%2fClasses%2f">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fpost%2fwhats-that%2f">
             <img src="/icons/linkedin.png" class="share-img">
         </a>
     </p>
