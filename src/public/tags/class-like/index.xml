@@ -19,6 +19,8 @@
       <guid>http://localhost:1313/post/Classes/</guid>
       <description>
 
+&lt;p&gt;&lt;input type=&#34;text&#34;/&gt;&lt;/p&gt;
+
 &lt;h4 id=&#34;i-see-a-lot-of-design-patterns-on-nodejs-most-of-then-i-don-t-like:20d1ea64521c4978f84dc5ec94fb9248&#34;&gt;I see a lot of design patterns on NodeJS, most of then I don&amp;rsquo;t like.&lt;/h4&gt;
 
 &lt;p&gt;These NodeJS design patterns help us build fast applications using JavaScript, but they might lead to crappy code.&lt;/p&gt;

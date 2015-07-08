@@ -8,8 +8,86 @@
     <language>en-us</language>
     <managingEditor>pedro@pedroassis.com.br (Pedro Assis)</managingEditor>
     <webMaster>pedro@pedroassis.com.br (Pedro Assis)</webMaster>
-    <lastBuildDate>Tue, 07 Jul 2015 20:20:09 -0300</lastBuildDate>
+    <lastBuildDate>Wed, 08 Jul 2015 14:43:07 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/di/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Deeper Dive into Node-Dependency</title>
+      <link>http://localhost:1313/post/deeper-dive/</link>
+      <pubDate>Wed, 08 Jul 2015 14:43:07 -0300</pubDate>
+      <author>pedro@pedroassis.com.br (Pedro Assis)</author>
+      <guid>http://localhost:1313/post/deeper-dive/</guid>
+      <description>
+
+&lt;p&gt;After &lt;a href=&#34;http://node-dependency.pedroassis.com.br/post/getting-started/&#34;&gt;Getting Started&lt;/a&gt; you might what to go deeper into the framework, we&amp;rsquo;ll give you a hand.&lt;/p&gt;
+
+&lt;p&gt;You may find yourself with naming collisions, because node-dependency registers your classes based on the Function&amp;rsquo;s name. If you have more than one class with the same name, you&amp;rsquo;ll have some problems.&lt;/p&gt;
+
+&lt;p&gt;There are two ways of fixing this:&lt;/p&gt;
+
+&lt;h4 id=&#34;package-and-import:348743353c45ebd65288a1295c15f00e&#34;&gt;Package and Import&lt;/h4&gt;
+
+&lt;p&gt;You can define packages and import them, similar to Java&amp;rsquo;s package management, but not quite as complex.&lt;/p&gt;
+
+&lt;p&gt;To define the class&amp;rsquo;s package name, you&amp;rsquo;ll have to use some &lt;a href=&#34;http://node-dependency.pedroassis.com.br/post/JS-Annotations/&#34;&gt;annotations&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h6 id=&#34;user-js:348743353c45ebd65288a1295c15f00e&#34;&gt;User.js&lt;/h6&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;&#39;package br.com.pedroassis&#39;;
+
+function User(){
+    // some code
+}
+
+module.exports = User;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;User&lt;/code&gt; class will be defined with name &lt;code&gt;br.com.pedroassis.User&lt;/code&gt;, thus avoid naming collision.&lt;/p&gt;
+
+&lt;p&gt;To inject this class you now must first import it:&lt;/p&gt;
+
+&lt;h6 id=&#34;userholder-js:348743353c45ebd65288a1295c15f00e&#34;&gt;UserHolder.js&lt;/h6&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;&#39;import br.com.pedroassis.User&#39;;  // No wildcards, import the fullname
+&#39;import br.com.pedroassis.Model&#39;; // Another import, even inside the same package
+
+function UserHolder(User, Model){
+    // some code
+}
+
+module.exports = UserHolder;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The package is just a name, the source file may be inside any folder in your source folder.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;Package&lt;/code&gt; and &lt;code&gt;Import&lt;/code&gt; are cool and all, but there&amp;rsquo;s a easier way:&lt;/p&gt;
+
+&lt;h4 id=&#34;named:348743353c45ebd65288a1295c15f00e&#34;&gt;@Named&lt;/h4&gt;
+
+&lt;p&gt;Node-Dependency supports the &lt;code&gt;@Named&lt;/code&gt; annotation used to rename the Class with an arbitrary string.&lt;/p&gt;
+
+&lt;h6 id=&#34;user-js-1:348743353c45ebd65288a1295c15f00e&#34;&gt;User.js&lt;/h6&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;
+&#39;@Named(&amp;quot;userInstance123&amp;quot;)&#39;
+function User(){
+    // some code
+}
+
+module.exports = User;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h6 id=&#34;userholder-js-1:348743353c45ebd65288a1295c15f00e&#34;&gt;UserHolder.js&lt;/h6&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;
+function UserHolder(userInstance123){ // No need to import it
+    // some code
+}
+
+module.exports = UserHolder;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Getting Started</title>
@@ -200,6 +278,8 @@ It discovers your files and declare them to be injected and to have it&amp;rsquo
       <author>pedro@pedroassis.com.br (Pedro Assis)</author>
       <guid>http://localhost:1313/post/Classes/</guid>
       <description>
+
+&lt;p&gt;&lt;input type=&#34;text&#34;/&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;i-see-a-lot-of-design-patterns-on-nodejs-most-of-then-i-don-t-like:20d1ea64521c4978f84dc5ec94fb9248&#34;&gt;I see a lot of design patterns on NodeJS, most of then I don&amp;rsquo;t like.&lt;/h4&gt;
 
